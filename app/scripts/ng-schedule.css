@@ -1,0 +1,70 @@
+.schedule-wrap {
+	width: 900px;
+	height: 300px;
+}
+
+.schedule {
+	border: 1px solid black;
+}
+
+.schedule table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.schedule table div {
+	width: 100%;
+	height: 100%;
+	/*margin: 1px;*/
+	/*border: 1px solid black;*/
+}
+
+.schedule td:not(:last-child) > div {
+	border-right: 1px solid white;
+}
+
+.schedule table div {
+	/*cursor: pointer;*/
+	box-sizing: border-box;
+}
+
+.schedule-block-content {
+	width: 100%;
+	height: 100%;
+	box-sizing: box;
+	cursor:pointer;
+
+}
+
+.schedule table div:hover {
+	background-color: green;
+	/*opacity: 0.95;*/
+
+}
+/*
+.schedule td {
+	border: 1px solid gray;
+}*/
+
+/*.schedule ul {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.schedule li {
+	display: table-cell;
+}
+*/
+.schedule-block-filled {
+	background-color: #5CE65C;
+	/*opacity: 0.8;*/
+}
+
+.schedule-block-available {
+	background-color: #EEEEEE;
+}
+
