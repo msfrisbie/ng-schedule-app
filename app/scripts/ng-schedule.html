@@ -9,9 +9,16 @@
 			<tr>
 				<td ng-repeat="block in day.blocks" 
 					colspan="{{ block.length }}">
-					<div ng-class="{'schedule-block-filled': block.status > 0, 'schedule-block-available': block.status === 0}">
+					<div ng-class="{'schedule-block-filled': block.status > 0, 
+									'schedule-block-available': block.status === 0}">
 						<div class="schedule-block-content">
 							&nbsp;
+							<div class="bumper left-bumper" 
+								 ng-if="block.status > 0">
+							</div>
+							<div class="bumper right-bumper" 
+								 ng-if="block.status > 0">
+							</div>
 						</div>
 					</div>
 				</td>
