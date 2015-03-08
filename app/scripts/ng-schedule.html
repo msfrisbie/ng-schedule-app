@@ -7,11 +7,19 @@
 	<div ng-repeat="day in days">
 		<table>
 			<tr>
+				<td ng-repeat="j in jake track by $index">
+					<div></div>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
 				<td ng-repeat="block in day.blocks" 
 					colspan="{{ block.length }}">
 					<div ng-class="{'schedule-block-filled': block.status > 0, 
 									'schedule-block-available': block.status === 0}">
-						<div class="schedule-block-content">
+						<div ng-click="block.status = (block.status+1)%2"
+							 class="schedule-block-content">
 							&nbsp;
 							<div class="bumper left-bumper" 
 								 ng-if="block.status > 0">

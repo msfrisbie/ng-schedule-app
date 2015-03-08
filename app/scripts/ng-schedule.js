@@ -13,6 +13,8 @@ angular.module('ngSchedule', [])
 
       console.log(scope.events)
 
+      scope.jake = Array(24)
+
       scope.days = [
         {
           blocks: [
