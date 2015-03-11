@@ -30,7 +30,7 @@
 	height: 100%;
 }*/
 
-.schedule td:not(:last-child) > div {
+.schedule .display-blocks td:not(:last-child) > div {
 	border-right: 2px solid white;
 }
 

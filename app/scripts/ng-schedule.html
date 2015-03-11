@@ -5,16 +5,9 @@
 		</div>
 	</div> -->
 	<div ng-repeat="day in days">
-		<table>
+		<table class="display-blocks">
 			<tr>
-				<td ng-repeat="j in jake track by $index">
-					<div></div>
-				</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<td ng-repeat="block in day.blocks" 
+				<td ng-repeat="block in day.serialize()" 
 					colspan="{{ block.length }}">
 					<div ng-class="{'schedule-block-filled': block.status > 0, 
 									'schedule-block-available': block.status === 0}">
@@ -29,6 +22,16 @@
 							</div>
 						</div>
 					</div>
+				</td>
+			</tr>
+		</table>
+		<table class="selector-blocks">
+			<tr>
+				<td ng-mouseenter="alterBlock($parent.$index, $index)" 
+					ng-repeat="target in blockTargets track by $index"
+					ng-mousedown="select($parent.$index, $index)"
+					ng-mouseup="release()">
+					<div></div>
 				</td>
 			</tr>
 		</table>
