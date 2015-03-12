@@ -3,11 +3,14 @@ angular.module('ngSchedule', [])
 
   function Day(granularity) {
 
-    // this.head = null;
+    // -1 invalid
+    // 0 open
+    // 1+ status
+    this.head = new Block(0);
+    this.tail = new Block(0);
 
-    // this.blocks = [];
-    this.head = null;
-    this.tail = null;
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
 
     // var selectedBlockIdx = null
     //   , selectedRightSlider = false
@@ -15,58 +18,39 @@ angular.module('ngSchedule', [])
 
     for (var i=0; i<granularity; ++i) {
       
-      var current = new Block(0, 1)
+      var current = new Block(1, 0)
 
+      // if (this.head === null && this.tail === null) {
+      //   this.head = current;
+      //   this.tail = current;
+      // } else {
 
-      if (!this.head)
-        this.head = current
+      var tmp = this.tail.prev
 
-      if (!this.tail) {
-        this.tail = current
-      } else {
-        this.tail.next = current
-        this.tail = current
-      }
+      tmp.next = current
+      current.prev = tmp
+      current.next = this.tail
+      this.tail.prev = current
 
-      // this.tail.next = current
-
+      // this.tail.prev = current
+      // current.prev = this.tail
       // this.tail = current
-
-
-      // this.blocks.push(current)
-
-        // , ptr = head;
-
-      // if (head) {
-      //   head.next = current;
-      //   current.prev = head
       // }
-
-
-      // if (blocks.length > 0) {
-      //   var last = blocks[blocks.length-1]
-      //   current.prev = last;
-      //   last.next = current;
-      // }
-      
-      // this.blocks.push(current)
     }
 
     // for presentation
+    // THIS GETS CALLED A MILLION FUCKING TIMES
     this.serialize = function() {
       var retArr = []
-        , ptr = this.head;
+        , ptr = this.head.next;
 
-
-      console.log(this.head.next)
-      
       while (ptr !== null) {
-        retArr.push(ptr)
+        if (angular.isDefined(ptr.status)) {
+          retArr.push(ptr)
+        }
         ptr = ptr.next;
       }
       
-      console.log(retArr, {a:1})
-
       return retArr;
     }
 
@@ -94,7 +78,7 @@ angular.module('ngSchedule', [])
 
     this.getBlockAtIndex = function(idx) {
 
-      var current = head;
+      var current = this.head.next;
 
       var total = 0;
 
@@ -105,35 +89,25 @@ angular.module('ngSchedule', [])
           return current;
 
         current = current.next;
-        // if (current.next)
-        //   current = head.next;
-        // else
-        //   break;
       }
-
-      // for (var i=0; i<this.blocks.length; ++i) {
-      //   if (this.blocks[i].start <= idx && this.blocks[i].end >= idx) {
-      //     return this.blocks[i];
-      //   }
-      // }
     }
   }
 
+  function Block(length, status) {
 
+    var self = this;
 
-  function Block(status, length) {
-
-    // this.blockRange = null;
     this.prev = null;
     this.next = null;
-    this.length = length;
 
-    // // end as an idx is not included in the covered range
+    this.length = length;
     this.status = status;
+
+    // this.day = day;
     
     this.start = function() {
       var total = 0
-        , ptr = this;
+        , ptr = self;
 
       while (ptr.prev !== null) {
         total += ptr.prev.length;
@@ -144,74 +118,88 @@ angular.module('ngSchedule', [])
     }
 
     this.end = function() {
-      return this.start() + this.length;
+      return self.start() + self.length - 1;
+    }
+
+    this.detach = function() {
+      // console.log(this)
+
+      // this.prev.next = this.next
+      // this.next.prev = this.prev
+
+      var next = this.next
+      var prev = this.prev
+      prev.next = next
+      next.prev = prev
+
+      this.next = null;
+      this.prev = null;
+
+      // console.log(this)
+
+      // returns itself for deletion
+      return this;
+    }
+
+    this.insertBefore = function(block) {
+      var prev = this.prev;
+      // var next = this.next;
+
+      prev.next = block;
+      block.next = this;
+      this.prev = block;
+      block.prev = prev;
+
+    }
+
+    this.available = function() {
+      return this.status === 0;
     }
 
     this.extendRight = function() {
-      if (this.next !== null && this.next.status > 0) {
-        this.next = this.next.next;
-        delete this.next.prev;
-        this.next.prev = this;
+      if (this.next.available()) {
+        delete this.next.detach()
         ++this.length;
+        return true;
+      } else {
+        return false;
       }
     }
 
     this.extendLeft = function() {
-      if (this.prev !== null && this.prev.status > 0) {
-        this.prev = this.prev.prev;
-        delete this.prev.next;
-        this.prev.next = this;
+      if (this.prev.available()) {
+        delete this.prev.detach()
         ++this.length;
+        return true;
+      } else {
+        return false;
       }
     }
 
     this.retractRight = function() {
       if (this.length > 1) {
-        var b = new Block(0, 1);
-        if (this.next !== null) {
-          this.next.prev = b;
-        }
-        this.next = b;
+        var b = new Block(1, 0);
+       this.next.insertBefore(b)
         --this.length;
+        return true;
+      } else {
+        return false;
       }
     }
 
     this.retractLeft = function() {
       if (this.length > 1) {
-        var b = new Block(0, 1);
-        if (this.prev !== null) {
-          this.prev.next = b;
-        }
-        this.prev = b;
+        var b = new Block(1, 0);
+        this.insertBefore(b)
         --this.length;
+        return true;
+      } else {
+        return false;
       }
     }
-
-    // this.extend = function() {
-
-    // }
-
-    // this.containsIdx = function(idx) {
-    //   return this.start <= idx && this.end >= idx;
-    // }
-
-    // this.setRightEndpoint = function(idx) {
-    //   var oldLength = this.length
-    //   this.length = this.end - idx + 1
-    //   this.end = this.start + this.length
-    //   return oldLength - this.length
-    // }
-
-    // this.setLeftEndpoint = function(idx) {
-    //   var oldLength = this.length
-    //   this.length = idx - this.start + 1
-    //   this.start = idx 
-    //   return oldLength - this.length
-    // }
   }
 
 	return {
-    // restrict: 'E',
     replace: true,
     scope: {
       events: '=ngModel'
@@ -221,48 +209,138 @@ angular.module('ngSchedule', [])
     },
     link: function(scope, el, attrs, ctrl) {
 
-      // console.log(scope.events)
+      // var selectedDayIdx = null
+      //   , selectedBlockIdx = null;
 
-      var selectedDayIdx = null
-        , selectedBlockIdx = null;
+      var selectedBlock = null
+      // 0 no direction
+      // -1 left
+      // 1 right
+        , adjustDirection = 0;
 
-      scope.alterBlock = function(dayIdx, blockIdx) {
+      // scope.alterBlock = function(dayIdx, blockIdx) {
 
-      }
+      // }
 
-      scope.select = function(dayIdx, blockIdx) {
-        selectedDayIdx = dayIdx;
-        selectedBlockIdx = blockIdx;
+      scope.select = function(dayIdx, event) {
+        var idx = scope.getIdx(dayIdx, event)
+
+        selectedBlock = scope.days[dayIdx].getBlockAtIndex(idx)
+
+        // console.log(selectedBlock)
+
+        // console.log(selectedBlock)
       }
 
       scope.release = function() {
-        selectedDayIdx = null;
-        selectedBlockIdx = null;
+        selectedBlock = null;
+        adjustDirection = 0;
       }
 
-      // scope.logBlock = function(dayIdx, blockIdx) { 
-      //   var total = 0;
+      scope.getIdx = function(dayIdx, event) {
+        var tr = $('.block-row')[dayIdx]
+          , xOffset = $(tr).offset().left
+          , totalWidth = tr.offsetWidth
+          , eventX = event.pageX;
 
-      //   console.log('indices', dayIdx, blockIdx)
+        // console.log(xOffset, totalWidth, eventX, Math.floor(24 * (eventX-xOffset) / (totalWidth)))        
+      
+        return Math.floor(24 * (eventX-xOffset) / (totalWidth));
+      }
 
-      //   for (var i=0; i<scope.days[dayIdx].blocks.length; i++) {
-      //     total += scope.days[dayIdx].blocks[i].length
-      //     if (total > blockIdx) {
-      //       console.log( scope.days[dayIdx].blocks[i] )
-      //       break
-      //     }
-      //   }
-      // }
+      scope.trackMove = function(dayIdx, event) {
 
-      // scope.select = function(dayIdx, blockIdx) {
-      //   selectedDayIdx = dayIdx;
-      //   selectedBlockIdx = blockIdx;
-      // }
+        var timeIdx = scope.getIdx(dayIdx, event)
 
-      // scope.release = function() {
-      //   selectedDayIdx = undefined;
-      //   selectedBlockIdx = undefined;
-      // }
+        if (selectedBlock !== null) {
+          if (adjustDirection < 0) {
+
+            // moving the left bumper
+
+            if (timeIdx > selectedBlock.start()) {
+
+              // shrinking in from the left
+              console.log('shrink in from left')
+
+              while (timeIdx > selectedBlock.start()) {
+                var result = selectedBlock.retractLeft()
+                if (!result)
+                  break;
+              }
+            } else if(timeIdx < selectedBlock.end()) {
+
+              // expanding out to the left
+              console.log('expand out to left')
+
+
+              while (timeIdx < selectedBlock.start()) {
+                var result = selectedBlock.extendLeft()
+                if (!result)
+                  break;
+              }
+
+            }
+
+          } else if (adjustDirection > 0) {
+
+            // moving the right bumper
+
+            if (timeIdx > selectedBlock.end()) {
+
+              // expanding out to the right
+              console.log('expand out to right')
+
+              while (timeIdx > selectedBlock.end()) {
+                var result = selectedBlock.extendRight()
+                if (!result)
+                  break;
+              }
+
+            } else if (timeIdx < selectedBlock.end()) {
+
+              // shrinking in from the right
+              console.log('shrink in from right', timeIdx, selectedBlock.end())
+
+              while (timeIdx < selectedBlock.end()) {
+                var result = selectedBlock.retractRight()
+                if (!result)
+                  break;
+              }
+            }
+          }
+        }
+      }
+
+      scope.adjustLeft = function(block) {
+        selectedBlock = block;
+        adjustDirection = -1;
+      }
+
+      scope.adjustRight = function(block) {
+        selectedBlock = block;
+        adjustDirection = 1;
+      }
+
+      scope.logIt = function(dayIdx, event) {
+        // console.log(arguments)
+        // console.log(arguments[0].layerX)
+
+        // var tr = $('.block-row')[dayIdx]
+        
+        // var xOffset = $(tr).offset().left
+        //   , totalWidth = tr.offsetWidth
+        //   , eventX = event.pageX;
+
+        // console.log(xOffset, totalWidth, eventX, Math.floor(24 * (eventX-xOffset) / (totalWidth)))
+
+        // console.log('offset', tr[dayIdx].offset())
+
+        // var idx = arguments[0]
+        // var e = arguments[1]
+
+        // console.log(idx, e.offset())
+        // console.log($('table.display-blocks > tr'))
+      }
 
       scope.blockTargets = Array(24)
 

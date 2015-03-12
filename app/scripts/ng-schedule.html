@@ -1,4 +1,4 @@
-<div class="schedule">
+<div class="schedule noselect">
 <!-- 	<div ng-repeat="day in days">
 		<div ng-repeat="block in day.blocks">
 			<input ng-model="block.length" />
@@ -6,27 +6,33 @@
 	</div> -->
 	<div ng-repeat="day in days">
 		<table class="display-blocks">
-			<tr>
+			<tr class="block-row"
+				  ng-mousemove="trackMove($index, $event)"
+          ng-mousedown="select($index, $event)"
+          ng-mouseleave="release()"
+          ng-mouseup="release()">
 				<td ng-repeat="block in day.serialize()" 
-					colspan="{{ block.length }}">
+					  colspan="{{ block.length }}">
 					<div ng-class="{'schedule-block-filled': block.status > 0, 
-									'schedule-block-available': block.status === 0}">
+									        'schedule-block-available': block.status === 0}">
 						<div ng-click="block.status = (block.status+1)%2"
-							 class="schedule-block-content">
+							   class="schedule-block-content">
 							&nbsp;
 							<div class="bumper left-bumper" 
-								 ng-if="block.status > 0">
+                   ng-mousedown="adjustLeft(block)"
+								   ng-if="block.status > 0">
 							</div>
 							<div class="bumper right-bumper" 
-								 ng-if="block.status > 0">
+                   ng-mousedown="adjustRight(block)"
+								   ng-if="block.status > 0">
 							</div>
 						</div>
 					</div>
 				</td>
 			</tr>
 		</table>
-		<table class="selector-blocks">
-			<tr>
+		<!-- <table class="selector-blocks">
+			<tr ng-mousemove="logIt($event)">
 				<td ng-mouseenter="alterBlock($parent.$index, $index)" 
 					ng-repeat="target in blockTargets track by $index"
 					ng-mousedown="select($parent.$index, $index)"
@@ -34,7 +40,7 @@
 					<div></div>
 				</td>
 			</tr>
-		</table>
+		</table> -->
 		
 		<!-- 
 		<li ng-repeat="block in day.blocks"
