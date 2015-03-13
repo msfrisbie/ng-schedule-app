@@ -1,7 +1,12 @@
 <div class="schedule noselect"
      ng-mouseleave="release()"
      ng-mouseup="release()">
-	<div ng-repeat="day in days"
+  <div ng-repeat="klass in fillClasses.slice(1)"
+       class="colorpicker ng-class:[klass]"
+       ng-click="selectClass($index+1)">
+  </div>
+	<div style="clear: both;"
+       ng-repeat="day in days"
        ng-init="dayIdx = $index">
 		<table class="display-blocks"
            ng-class="{resizing: selectedBlock !== null}">
@@ -16,27 +21,22 @@
           <div class="schedule-block-content 
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)">
-					<!--<div ng-class="{'schedule-block-filled': block.status > 0, 
-									        'schedule-block-available': block.status === 0}">-->
-						<!-- <div  -->
-							   <!-- class=""> -->
-							&nbsp;
-							<div class="bumper left-bumper" 
-                   ng-class="{resizing: selectedBlock === null}"
-                   ng-mousedown="adjustLeft(block)"
-								   ng-if="block.status > 0">
-							</div>
-							<div class="bumper right-bumper" 
-                   ng-class="{resizing: selectedBlock === null}"
-                   ng-mousedown="adjustRight(block)"
-								   ng-if="block.status > 0">
-							</div>
-              <div class="destroy-btn"
-                   ng-click="remove(dayIdx, block, $event)"
-                   ng-if="block.destructible && block.status>0">
-                X
-              </div>
-						<!-- </div> -->
+						&nbsp;
+						<div class="bumper left-bumper" 
+                 ng-class="{resizing: selectedBlock === null}"
+                 ng-mousedown="adjustLeft(block)"
+							   ng-if="block.status > 0">
+						</div>
+						<div class="bumper right-bumper" 
+                 ng-class="{resizing: selectedBlock === null}"
+                 ng-mousedown="adjustRight(block)"
+							   ng-if="block.status > 0">
+						</div>
+            <div class="destroy-btn"
+                 ng-click="remove(dayIdx, block, $event)"
+                 ng-if="block.destructible && block.status>0">
+              <span class="glyphicon glyphicon-remove"></span>
+            </div>
 					</div>
 				</td>
 			</tr>

@@ -25,7 +25,6 @@ angular.module('ngSchedule', [])
     }
 
     // for presentation
-    // THIS GETS CALLED A MILLION FUCKING TIMES
     this.serialize = function() {
       var retArr = []
         , ptr = this.head.next;
@@ -92,7 +91,6 @@ angular.module('ngSchedule', [])
     }
 
     this.clickIdx = function() {
-      console.log(self.selectionOffset)
       return self.start() + self.selectionOffset;
     }
 
@@ -225,16 +223,21 @@ angular.module('ngSchedule', [])
       // 1 right
       var adjustDirection = 0
         , clickTargetIdx = -1
-        , justCreated = false;
+        , justCreated = false
+        , fillClassIdx = null;
 
       scope.fillClasses = [
         'schedule-block-available',
-        'schedule-block-filled-primary',
-        'schedule-block-filled-success',
-        'schedule-block-filled-info',
-        'schedule-block-filled-warning',
-        'schedule-block-filled-danger'
+        'btn-primary',
+        'btn-success',
+        'btn-info',
+        'btn-warning',
+        'btn-danger'
       ]
+
+      scope.selectClass = function(idx) {
+        fillClassIdx = idx;
+      }
 
       scope.select = function(dayIdx, event) {
         clickTargetIdx = scope.getIdx(dayIdx, event);
@@ -259,7 +262,7 @@ angular.module('ngSchedule', [])
 
       scope.createIfAvailable = function(dayIdx, block) {
         if (block.available()) {
-          block.status = 1;
+          block.status = fillClassIdx;
           justCreated = true;
           scope.selectedBlock = block;
           scope.days[dayIdx].serialize();
@@ -328,7 +331,6 @@ angular.module('ngSchedule', [])
 
             if (timeIdx < scope.selectedBlock.clickIdx()) {
               while (timeIdx < scope.selectedBlock.clickIdx()) {
-                console.log(timeIdx , scope.selectedBlock.clickIdx())
                 var result = scope.selectedBlock.shiftLeft();
                 if (!result)
                   break;

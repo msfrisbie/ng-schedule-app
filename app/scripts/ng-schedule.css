@@ -7,24 +7,40 @@
     user-select: none;
 }
 
+.colorpicker {
+	width: 50px; 
+	height: 50px; 
+	float: left; 
+	position: relative;
+	cursor: pointer;
+	margin: 0px 20px 20px 0px;
+	border-width: 3px;
+	border-style: solid;
+}
+
 .schedule-wrap {
 	padding: 20px;
 	width: 80%;
-	height: 300px;
+	/*height: 300px;*/
 }
 
 .schedule {
 	border: 1px solid black;
 }
 
-.schedule > div {
+.schedule > div:not(.colorpicker) {
 	position: relative;
+	/*height: 50px;*/
 	height: 60px;
+}
+
+.schedule > div {
 	margin-bottom: 20px;
 }
 
 .schedule td > div {
-	height: 50px;
+	height: 60px;
+	/*height: 100%;*/
 }
 
 .schedule table {
@@ -40,7 +56,8 @@
 }*/
 
 .schedule tr {
-	position: relative;
+	/*position: relative;*/
+	height: 100%;
 }
 
 .display-blocks {
@@ -71,20 +88,12 @@
 	background-color: #5CE65C;
 }*/
 
-.schedule-block-filled-primary {
-	background-color: red;
-}
-.schedule-block-filled-primary:hover {
-	background-color: yellow;
-}
 
-
-.schedule-block-available {
-	background-color: #EEEEEE;
+.schedule-block-available { 			
+	background-color: #EEEEEE; 
 }
-
-.schedule-block-available:hover {
-	background-color: #CCCCCC;
+.schedule-block-available:hover {		
+	background-color: #CCCCCC; 
 }
 
 .bumper {
@@ -117,9 +126,12 @@
 	right: 10px;
 	top: 5px;
 	font-size: 12px;
-	color: #777777;
+	/*color: #777777;*/
+	opacity: 0.5;
 }
 
 .destroy-btn:hover {
-	color: #DDDDDD;
+	/*color: #DDDDDD;*/
+	/*font-weight: bold;*/
+	opacity:1;
 }
