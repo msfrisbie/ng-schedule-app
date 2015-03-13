@@ -43,6 +43,10 @@
 	position: relative;
 }
 
+.display-blocks {
+	cursor:pointer;
+}
+
 .schedule .display-blocks td:not(:last-child) > div {
 	border-right: 2px solid white;
 }
@@ -50,25 +54,37 @@
 .schedule-block-content {
 	box-sizing: border-box;
 }
-
+/*
 .schedule-block-content:hover {
 	background-color: green;
-}
+}*/
 
 .schedule-block-content {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	cursor:pointer;
+	/*cursor:pointer;*/
 	box-sizing: box;
 }
 
-.schedule-block-filled {
+/*.schedule-block-filled {
 	background-color: #5CE65C;
+}*/
+
+.schedule-block-filled-primary {
+	background-color: red;
 }
+.schedule-block-filled-primary:hover {
+	background-color: yellow;
+}
+
 
 .schedule-block-available {
 	background-color: #EEEEEE;
+}
+
+.schedule-block-available:hover {
+	background-color: #CCCCCC;
 }
 
 .bumper {
@@ -79,7 +95,7 @@
 	top: -2px;
 	border-color: #AAAAAA;
 	border-style: solid;
-	cursor: ew-resize;
+	/*cursor: ew-resize;*/
 }
 
 .resizing {
