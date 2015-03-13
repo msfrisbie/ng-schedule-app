@@ -3,39 +3,25 @@ angular.module('ngSchedule', [])
 
   function Day(granularity) {
 
-    // -1 invalid
-    // 0 open
-    // 1+ status
     this.head = new Block(0);
     this.tail = new Block(0);
 
     this.head.next = this.tail;
     this.tail.prev = this.head;
 
-    // var scope.selectedBlockIdx = null
-    //   , selectedRightSlider = false
-    //   , selectedLeftSlider = false;
+    this.blocks;
 
     for (var i=0; i<granularity; ++i) {
       
-      var current = new Block(1, 0)
+      var current = new Block(1, 0);
 
-      // if (this.head === null && this.tail === null) {
-      //   this.head = current;
-      //   this.tail = current;
-      // } else {
+      var tmp = this.tail.prev;
 
-      var tmp = this.tail.prev
+      tmp.next = current;
+      current.prev = tmp;
+      current.next = this.tail;
+      this.tail.prev = current;
 
-      tmp.next = current
-      current.prev = tmp
-      current.next = this.tail
-      this.tail.prev = current
-
-      // this.tail.prev = current
-      // current.prev = this.tail
-      // this.tail = current
-      // }
     }
 
     // for presentation
@@ -46,35 +32,15 @@ angular.module('ngSchedule', [])
 
       while (ptr !== null) {
         if (angular.isDefined(ptr.status)) {
-          retArr.push(ptr)
+          retArr.push(ptr);
         }
         ptr = ptr.next;
       }
       
-      return retArr;
+      this.blocks = retArr;
     }
 
-    // can only replace an unoccupied block
-    this.addBlock = function(idx, length, status) {
-      this.getBlockAtIndex(idx).status = status;
-    }
-
-    // this.modifyscope.selectedBlock = function(idx) {
-    //   if (scope.selectedBlockIdx) {
-    //     var block = this.getBlockAtIndex(idx)
-
-    //     if (selectedRightSlider) {
-    //       var delta = block.setRightEndpoint(idx)
-    //       for (var i=0; i<delta; ++i) {
-    //         this.blocks.splice(block.end, 0, new Block())
-    //       }
-    //     }
-
-    //     if (selectedLeftSlider) {
-    //       var delta = block.setLeftEndpoint(idx)
-    //     }
-    //   }
-    // }
+    this.serialize();
 
     this.getBlockAtIndex = function(idx) {
 
@@ -127,6 +93,7 @@ angular.module('ngSchedule', [])
 
       var next = this.next
       var prev = this.prev
+
       prev.next = next
       next.prev = prev
 
@@ -157,26 +124,6 @@ angular.module('ngSchedule', [])
     this.available = function() {
       return this.status === 0;
     }
-
-    // this.extendRight = function() {
-    //   if (this.next.available()) {
-    //     delete this.next.detach()
-    //     ++this.length;
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-    // this.extendLeft = function() {
-    //   if (this.prev.available()) {
-    //     delete this.prev.detach()
-    //     ++this.length;
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
 
     this.extend = function(targetBlock) {
       if (targetBlock.available()) {
@@ -214,28 +161,6 @@ angular.module('ngSchedule', [])
     this.retractLeft = function() {
       this.retract(this);
     }
-
-    // this.retractRight = function() {
-    //   if (this.length > 1) {
-    //     var b = new Block(1, 0);
-    //    this.next.insertBefore(b)
-    //     --this.length;
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-    // this.retractLeft = function() {
-    //   if (this.length > 1) {
-    //     var b = new Block(1, 0);
-    //     this.insertBefore(b)
-    //     --this.length;
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
   }
 
 	return {
@@ -274,14 +199,16 @@ angular.module('ngSchedule', [])
         return Math.floor(24 * (eventX-xOffset) / (totalWidth));
       }
 
-      scope.createIfAvailable = function(block) {
+      scope.createIfAvailable = function(dayIdx, block) {
         if (block.available())
           block.status = 1;
+        scope.days[dayIdx].serialize();
       }
 
-      scope.remove = function(block, $event) {
-        block.remove()
-        $event.stopPropagation()
+      scope.remove = function(dayIdx, block, $event) {
+        block.remove();
+        $event.stopPropagation();
+        scope.days[dayIdx].serialize();
       }
 
       scope.trackMove = function(dayIdx, event) {
@@ -290,53 +217,42 @@ angular.module('ngSchedule', [])
 
         if (scope.selectedBlock !== null) {
           if (adjustDirection < 0) {
-
             // moving the left bumper
-
             if (timeIdx > scope.selectedBlock.start()) {
-
               // shrinking in from the left
-
               while (timeIdx > scope.selectedBlock.start()) {
                 var result = scope.selectedBlock.retractLeft()
                 if (!result)
                   break;
               }
+              scope.days[dayIdx].serialize();
             } else if(timeIdx < scope.selectedBlock.end()) {
-
               // expanding out to the left
-
               while (timeIdx < scope.selectedBlock.start()) {
                 var result = scope.selectedBlock.extendLeft()
                 if (!result)
                   break;
               }
-
+              scope.days[dayIdx].serialize();
             }
-
           } else if (adjustDirection > 0) {
-
             // moving the right bumper
-
             if (timeIdx > scope.selectedBlock.end()) {
-
               // expanding out to the right
-
               while (timeIdx > scope.selectedBlock.end()) {
                 var result = scope.selectedBlock.extendRight()
                 if (!result)
                   break;
               }
-
+              scope.days[dayIdx].serialize();
             } else if (timeIdx < scope.selectedBlock.end()) {
-
               // shrinking in from the right
-
               while (timeIdx < scope.selectedBlock.end()) {
                 var result = scope.selectedBlock.retractRight()
                 if (!result)
                   break;
               }
+              scope.days[dayIdx].serialize();
             }
           }
         }
