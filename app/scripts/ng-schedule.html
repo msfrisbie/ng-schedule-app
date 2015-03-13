@@ -1,21 +1,25 @@
-<div class="schedule noselect">
+<div class="schedule noselect"
+     ng-mouseleave="release()"
+     ng-mouseup="release()">
 <!-- 	<div ng-repeat="day in days">
 		<div ng-repeat="block in day.blocks">
 			<input ng-model="block.length" />
 		</div>
 	</div> -->
 	<div ng-repeat="day in days">
-		<table class="display-blocks">
+		<table class="display-blocks"
+           ng-class="{resizing: selectedBlock !== null}">
 			<tr class="block-row"
 				  ng-mousemove="trackMove($index, $event)"
           ng-mousedown="select($index, $event)"
-          ng-mouseleave="release()"
-          ng-mouseup="release()">
+          ng-mouseleave=""
+          ng-mouseenter=""
+          ng-mouseup="">
 				<td ng-repeat="block in day.serialize()" 
 					  colspan="{{ block.length }}">
 					<div ng-class="{'schedule-block-filled': block.status > 0, 
 									        'schedule-block-available': block.status === 0}">
-						<div ng-click="block.status = (block.status+1)%2"
+						<div ng-click="createIfAvailable(block)"
 							   class="schedule-block-content">
 							&nbsp;
 							<div class="bumper left-bumper" 
@@ -26,6 +30,11 @@
                    ng-mousedown="adjustRight(block)"
 								   ng-if="block.status > 0">
 							</div>
+              <div class="destroy-btn"
+                   ng-click="remove(block, $event)"
+                   ng-if="block.destructible && block.status>0">
+                X
+              </div>
 						</div>
 					</div>
 				</td>

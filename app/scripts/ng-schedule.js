@@ -12,7 +12,7 @@ angular.module('ngSchedule', [])
     this.head.next = this.tail;
     this.tail.prev = this.head;
 
-    // var selectedBlockIdx = null
+    // var scope.selectedBlockIdx = null
     //   , selectedRightSlider = false
     //   , selectedLeftSlider = false;
 
@@ -59,8 +59,8 @@ angular.module('ngSchedule', [])
       this.getBlockAtIndex(idx).status = status;
     }
 
-    // this.modifySelectedBlock = function(idx) {
-    //   if (selectedBlockIdx) {
+    // this.modifyscope.selectedBlock = function(idx) {
+    //   if (scope.selectedBlockIdx) {
     //     var block = this.getBlockAtIndex(idx)
 
     //     if (selectedRightSlider) {
@@ -97,6 +97,8 @@ angular.module('ngSchedule', [])
 
     var self = this;
 
+    this.destructible = true;
+
     this.prev = null;
     this.next = null;
 
@@ -122,10 +124,6 @@ angular.module('ngSchedule', [])
     }
 
     this.detach = function() {
-      // console.log(this)
-
-      // this.prev.next = this.next
-      // this.next.prev = this.prev
 
       var next = this.next
       var prev = this.prev
@@ -135,10 +133,14 @@ angular.module('ngSchedule', [])
       this.next = null;
       this.prev = null;
 
-      // console.log(this)
-
       // returns itself for deletion
       return this;
+    }
+
+    this.remove = function() {
+      while (this.length > 1)
+        this.retractLeft()
+      this.status = 0;
     }
 
     this.insertBefore = function(block) {
@@ -156,9 +158,29 @@ angular.module('ngSchedule', [])
       return this.status === 0;
     }
 
-    this.extendRight = function() {
-      if (this.next.available()) {
-        delete this.next.detach()
+    // this.extendRight = function() {
+    //   if (this.next.available()) {
+    //     delete this.next.detach()
+    //     ++this.length;
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+
+    // this.extendLeft = function() {
+    //   if (this.prev.available()) {
+    //     delete this.prev.detach()
+    //     ++this.length;
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+
+    this.extend = function(targetBlock) {
+      if (targetBlock.available()) {
+        delete targetBlock.detach();
         ++this.length;
         return true;
       } else {
@@ -166,10 +188,19 @@ angular.module('ngSchedule', [])
       }
     }
 
+    this.extendRight = function() {
+      this.extend(this.next);
+    }
+
     this.extendLeft = function() {
-      if (this.prev.available()) {
-        delete this.prev.detach()
-        ++this.length;
+      this.extend(this.prev);
+    }
+
+    this.retract = function(targetBlock) {
+      if (this.length > 1) {
+        var b = new Block(1, 0);
+        targetBlock.insertBefore(b);
+        --this.length;
         return true;
       } else {
         return false;
@@ -177,26 +208,34 @@ angular.module('ngSchedule', [])
     }
 
     this.retractRight = function() {
-      if (this.length > 1) {
-        var b = new Block(1, 0);
-       this.next.insertBefore(b)
-        --this.length;
-        return true;
-      } else {
-        return false;
-      }
+      this.retract(this.next);
     }
 
     this.retractLeft = function() {
-      if (this.length > 1) {
-        var b = new Block(1, 0);
-        this.insertBefore(b)
-        --this.length;
-        return true;
-      } else {
-        return false;
-      }
+      this.retract(this);
     }
+
+    // this.retractRight = function() {
+    //   if (this.length > 1) {
+    //     var b = new Block(1, 0);
+    //    this.next.insertBefore(b)
+    //     --this.length;
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
+
+    // this.retractLeft = function() {
+    //   if (this.length > 1) {
+    //     var b = new Block(1, 0);
+    //     this.insertBefore(b)
+    //     --this.length;
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
   }
 
 	return {
@@ -209,31 +248,20 @@ angular.module('ngSchedule', [])
     },
     link: function(scope, el, attrs, ctrl) {
 
-      // var selectedDayIdx = null
-      //   , selectedBlockIdx = null;
-
-      var selectedBlock = null
+      scope.selectedBlock = null
       // 0 no direction
       // -1 left
       // 1 right
         , adjustDirection = 0;
 
-      // scope.alterBlock = function(dayIdx, blockIdx) {
-
-      // }
-
       scope.select = function(dayIdx, event) {
         var idx = scope.getIdx(dayIdx, event)
 
-        selectedBlock = scope.days[dayIdx].getBlockAtIndex(idx)
-
-        // console.log(selectedBlock)
-
-        // console.log(selectedBlock)
+        scope.selectedBlock = scope.days[dayIdx].getBlockAtIndex(idx);
       }
 
       scope.release = function() {
-        selectedBlock = null;
+        scope.selectedBlock = null;
         adjustDirection = 0;
       }
 
@@ -243,38 +271,43 @@ angular.module('ngSchedule', [])
           , totalWidth = tr.offsetWidth
           , eventX = event.pageX;
 
-        // console.log(xOffset, totalWidth, eventX, Math.floor(24 * (eventX-xOffset) / (totalWidth)))        
-      
         return Math.floor(24 * (eventX-xOffset) / (totalWidth));
+      }
+
+      scope.createIfAvailable = function(block) {
+        if (block.available())
+          block.status = 1;
+      }
+
+      scope.remove = function(block, $event) {
+        block.remove()
+        $event.stopPropagation()
       }
 
       scope.trackMove = function(dayIdx, event) {
 
         var timeIdx = scope.getIdx(dayIdx, event)
 
-        if (selectedBlock !== null) {
+        if (scope.selectedBlock !== null) {
           if (adjustDirection < 0) {
 
             // moving the left bumper
 
-            if (timeIdx > selectedBlock.start()) {
+            if (timeIdx > scope.selectedBlock.start()) {
 
               // shrinking in from the left
-              console.log('shrink in from left')
 
-              while (timeIdx > selectedBlock.start()) {
-                var result = selectedBlock.retractLeft()
+              while (timeIdx > scope.selectedBlock.start()) {
+                var result = scope.selectedBlock.retractLeft()
                 if (!result)
                   break;
               }
-            } else if(timeIdx < selectedBlock.end()) {
+            } else if(timeIdx < scope.selectedBlock.end()) {
 
               // expanding out to the left
-              console.log('expand out to left')
 
-
-              while (timeIdx < selectedBlock.start()) {
-                var result = selectedBlock.extendLeft()
+              while (timeIdx < scope.selectedBlock.start()) {
+                var result = scope.selectedBlock.extendLeft()
                 if (!result)
                   break;
               }
@@ -285,24 +318,22 @@ angular.module('ngSchedule', [])
 
             // moving the right bumper
 
-            if (timeIdx > selectedBlock.end()) {
+            if (timeIdx > scope.selectedBlock.end()) {
 
               // expanding out to the right
-              console.log('expand out to right')
 
-              while (timeIdx > selectedBlock.end()) {
-                var result = selectedBlock.extendRight()
+              while (timeIdx > scope.selectedBlock.end()) {
+                var result = scope.selectedBlock.extendRight()
                 if (!result)
                   break;
               }
 
-            } else if (timeIdx < selectedBlock.end()) {
+            } else if (timeIdx < scope.selectedBlock.end()) {
 
               // shrinking in from the right
-              console.log('shrink in from right', timeIdx, selectedBlock.end())
 
-              while (timeIdx < selectedBlock.end()) {
-                var result = selectedBlock.retractRight()
+              while (timeIdx < scope.selectedBlock.end()) {
+                var result = scope.selectedBlock.retractRight()
                 if (!result)
                   break;
               }
@@ -312,126 +343,26 @@ angular.module('ngSchedule', [])
       }
 
       scope.adjustLeft = function(block) {
-        selectedBlock = block;
+        scope.selectedBlock = block;
         adjustDirection = -1;
       }
 
       scope.adjustRight = function(block) {
-        selectedBlock = block;
+        scope.selectedBlock = block;
         adjustDirection = 1;
-      }
-
-      scope.logIt = function(dayIdx, event) {
-        // console.log(arguments)
-        // console.log(arguments[0].layerX)
-
-        // var tr = $('.block-row')[dayIdx]
-        
-        // var xOffset = $(tr).offset().left
-        //   , totalWidth = tr.offsetWidth
-        //   , eventX = event.pageX;
-
-        // console.log(xOffset, totalWidth, eventX, Math.floor(24 * (eventX-xOffset) / (totalWidth)))
-
-        // console.log('offset', tr[dayIdx].offset())
-
-        // var idx = arguments[0]
-        // var e = arguments[1]
-
-        // console.log(idx, e.offset())
-        // console.log($('table.display-blocks > tr'))
       }
 
       scope.blockTargets = Array(24)
 
       scope.days = []
 
-      var day = new Day(24);
+      for (var i=0; i<3; ++i) {
+        var day = new Day(24);
 
-      scope.days.push(day);
-
-      // scope.days = [
-      //   {
-      //     blocks: [
-      //       {
-      //         length: 10,
-      //         status: 1
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },            
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },            
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },            
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },            
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //       {
-      //         length: 5,
-      //         status: 1
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //       {
-      //         length: 3,
-      //         status: 1
-      //       },
-      //     ]
-      //   },
-      //   {
-      //     blocks: [
-      //       {
-      //         length: 8,
-      //         status: 1
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //       {
-      //         length: 10,
-      //         status: 1
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //       {
-      //         length: 1,
-      //         status: 0
-      //       },
-      //     ]
-      //   },
-      // ]
-
+        scope.days.push(day);
+      }
     },
     // TODO: change this to template strings when finished
     templateUrl: 'scripts/ng-schedule.html'
   };
 })
-// .factory()
