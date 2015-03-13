@@ -22,9 +22,16 @@
     <![endif]-->
 
     <!-- TODO: set width if css doesn't set it -->
+
     <div schedule 
          class="schedule-wrap"
-         config="configData"
+         config-data="configData1"
+         ng-model="eventData">
+    </div>
+    <hr /> 
+    <div schedule 
+         class="schedule-wrap"
+         config-data="configData2"
          ng-model="eventData">
     </div>
 

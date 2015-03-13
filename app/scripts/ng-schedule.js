@@ -210,12 +210,15 @@ angular.module('ngSchedule', [])
 	return {
     replace: true,
     scope: {
-      events: '=ngModel'
+      events: '=ngModel',
+      configData: '='
     },
     controller: function() {
 
     },
     link: function(scope, el, attrs, ctrl) {
+
+      console.log(scope.configData, attrs)
 
       scope.selectedBlock = null;
       // 0 no direction
@@ -224,7 +227,7 @@ angular.module('ngSchedule', [])
       var adjustDirection = 0
         , clickTargetIdx = -1
         , justCreated = false
-        , fillClassIdx = null;
+        , fillClassIdx = 1;
 
       scope.fillClasses = [
         'schedule-block-available',
@@ -252,12 +255,24 @@ angular.module('ngSchedule', [])
       }
 
       scope.getIdx = function(dayIdx, event) {
-        var tr = $('.block-row')[dayIdx]
-          , xOffset = $(tr).offset().left
-          , totalWidth = tr.offsetWidth
-          , eventX = event.pageX;
+        
+        if (scope.configData.horizontal) {
+          var tr = $('.block-row')[dayIdx]
+            , xOffset = $(tr).offset().left
+            , totalWidth = tr.offsetWidth
+            , eventX = event.pageX;
 
-        return Math.floor(24 * (eventX-xOffset) / (totalWidth));
+          return Math.floor(24 * (eventX-xOffset) / (totalWidth));
+        } else {
+          var table = $('.block-col')[dayIdx]
+            , yOffset = $(table).offset().top
+            , totalHeight = table.offsetHeight
+            , eventY = event.pageY;
+
+          console.log(Math.floor(24 * (eventY-yOffset) / (totalHeight)))
+
+          return Math.floor(24 * (eventY-yOffset) / (totalHeight));
+        }
       }
 
       scope.createIfAvailable = function(dayIdx, block) {
@@ -273,6 +288,10 @@ angular.module('ngSchedule', [])
         block.remove();
         $event.stopPropagation();
         scope.days[dayIdx].serialize();
+      }
+
+      scope.getCount = function(num) {
+        return new Array(num);
       }
 
       scope.trackMove = function(dayIdx, event) {
@@ -311,6 +330,7 @@ angular.module('ngSchedule', [])
             // moving the right bumper
             if (timeIdx > scope.selectedBlock.end()) {
               // expanding out to the right
+              console.log(timeIdx, scope.selectedBlock.end())
               while (timeIdx > scope.selectedBlock.end()) {
                 var result = scope.selectedBlock.extendRight();
                 if (!result)
@@ -348,12 +368,12 @@ angular.module('ngSchedule', [])
         }
       }
 
-      scope.adjustLeft = function(block) {
+      scope.adjustBefore = function(block) {
         scope.selectedBlock = block;
         adjustDirection = -1;
       }
 
-      scope.adjustRight = function(block) {
+      scope.adjustAfter = function(block) {
         scope.selectedBlock = block;
         adjustDirection = 1;
       }

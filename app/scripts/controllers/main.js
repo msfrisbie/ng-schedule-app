@@ -10,7 +10,8 @@
 angular.module('ngscheduleApp')
   .controller('MainCtrl', function ($scope) {
 
-    $scope.configData = {
+    $scope.configData1 = {
+      horizontal: true,
       // -1: invalid
       // 0: available
       // 1+: valid
@@ -27,6 +28,10 @@ angular.module('ngscheduleApp')
       // minutes
       granularity: 30,
       minBlockSize: 60
+    }
+
+    $scope.configData2 = {
+      horizontal: false
     }
 
     $scope.eventData = [
