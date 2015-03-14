@@ -10,13 +10,6 @@
  */
 angular
   .module('ngscheduleApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngMessages',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch',
     'ngSchedule'
   ])
   .config(function ($routeProvider) {
