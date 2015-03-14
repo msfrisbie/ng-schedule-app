@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="app/styles/main.css">
+    <link rel="stylesheet" href="app/scripts/ng-schedule.css" />
+  </head>
+  <body ng-app="ngscheduleApp" ng-controller="MainCtrl">
+
+    <div schedule 
+         class="schedule-wrap"
+         config-data="configData1"
+         ng-model="eventData">
+    </div>
+    <hr /> 
+    <div schedule 
+         class="schedule-wrap"
+         config-data="configData2"
+         ng-model="eventData">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.js"></script>
+    <!-- <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/moment/moment.js"></script> -->
+    <script src="app/scripts/app.js"></script>
+    <script src="app/scripts/controllers/main.js"></script>
+    <script src="app/scripts/ng-schedule.js"></script>
+
+  </body>
+</html>
