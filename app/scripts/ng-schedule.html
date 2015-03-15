@@ -34,7 +34,7 @@
                  ng-mousedown="adjustAfter(block)"
 							   ng-if="block.status > 0">
 						</div>
-            <div class="destroy-btn"
+            <div class="destroy-btn destroy-btn-horiz"
                  ng-click="remove(dayIdx, block, $event)"
                  ng-if="block.destructible && block.status>0">
               <span class="glyphicon glyphicon-remove"></span>
@@ -50,7 +50,8 @@
       <tr ng-repeat-start="block in day.blocks"
           ng-mousemove="trackMove(dayIdx, $event)"
           ng-mousedown="select(dayIdx, $event)">
-        <td rowspan="{{ block.length }}">
+        <td class="vert-row-spacer vert-row-spacer-ff"
+            rowspan="{{ block.length }}">
           <div class="schedule-block-content 
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)">
@@ -65,7 +66,7 @@
                  ng-mousedown="adjustAfter(block)"
                  ng-if="block.status > 0">
             </div>
-            <div class="destroy-btn"
+            <div class="destroy-btn destroy-btn-vert"
                  ng-click="remove(dayIdx, block, $event)"
                  ng-if="block.destructible && block.status>0">
               <span class="glyphicon glyphicon-remove"></span>

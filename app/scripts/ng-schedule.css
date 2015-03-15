@@ -51,8 +51,6 @@
 
 .destroy-btn {
 	position: absolute;
-	right: 10px;
-	top: 5px;
 	font-size: 12px;
 	opacity: 0.5;
 }
@@ -115,6 +113,11 @@
 	right: 0px;
 }
 
+.destroy-btn-horiz {
+	right: 10px;
+	top: 5px;
+}
+
 /* vertical CSS */
 
 .schedule-vert tr {
@@ -132,11 +135,31 @@
 	margin-right: 20px;
 }
 
-.schedule-vert td {
-	height: 100%;
-	/*height: 60px;*/
+/* this works for chrome and not firefox */
+
+/*.vert-row-spacer {
+	height: 60px;
 	width: 200px;
-	/*height: auto;*/
+}
+
+@-moz-document url-prefix() {
+	.vert-row-spacer-ff {
+		height: inherit;	
+	}
+}
+*/
+/* this works for firefox and not chrome */
+
+.vert-row-spacer {
+	height: 60px;
+	width: 200px;
+}
+
+@-moz-document url-prefix() {
+	/*.vert-row-spacer-ff {*/
+	.schedule-vert td {
+		height: 100%;	
+	}
 }
 
 .schedule-vert td > div {
@@ -178,4 +201,9 @@
 .bottom-bumper {
 	border-width: 0px 2px 4px 2px;
 	bottom: 0px;
+}
+
+.destroy-btn-vert {
+	right: 5px;
+	top: 10px;
 }

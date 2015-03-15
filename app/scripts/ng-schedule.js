@@ -218,8 +218,6 @@ angular.module('ngSchedule', [])
     },
     link: function(scope, el, attrs, ctrl) {
 
-      console.log(scope.configData, attrs)
-
       scope.selectedBlock = null;
       // 0 no direction
       // -1 left
@@ -268,8 +266,6 @@ angular.module('ngSchedule', [])
             , yOffset = $(table).offset().top
             , totalHeight = table.offsetHeight
             , eventY = event.pageY;
-
-          console.log(Math.floor(24 * (eventY-yOffset) / (totalHeight)))
 
           return Math.floor(24 * (eventY-yOffset) / (totalHeight));
         }
@@ -330,7 +326,6 @@ angular.module('ngSchedule', [])
             // moving the right bumper
             if (timeIdx > scope.selectedBlock.end()) {
               // expanding out to the right
-              console.log(timeIdx, scope.selectedBlock.end())
               while (timeIdx > scope.selectedBlock.end()) {
                 var result = scope.selectedBlock.extendRight();
                 if (!result)
