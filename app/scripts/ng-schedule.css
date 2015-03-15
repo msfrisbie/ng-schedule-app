@@ -126,29 +126,11 @@
 
 .schedule-vert > div:not(.colorpicker) {
 	display: inline-block;
-	/*position: relative;*/
-	/*width: 60px;*/
-	/*float: left;*/
 }
 
 .schedule-vert > div {
 	margin-right: 20px;
 }
-
-/* this works for chrome and not firefox */
-
-/*.vert-row-spacer {
-	height: 60px;
-	width: 200px;
-}
-
-@-moz-document url-prefix() {
-	.vert-row-spacer-ff {
-		height: inherit;	
-	}
-}
-*/
-/* this works for firefox and not chrome */
 
 .vert-row-spacer {
 	height: 60px;
@@ -156,7 +138,6 @@
 }
 
 @-moz-document url-prefix() {
-	/*.vert-row-spacer-ff {*/
 	.schedule-vert td {
 		height: 100%;	
 	}
@@ -165,13 +146,10 @@
 .schedule-vert td > div {
 	height: 100%;
 	width: 100%;
-	/*height: 60px;*/
 }
 
 .schedule-vert table {
-	/*height: 100%;*/
 	left: 0px;
-	/*position: absolute;*/
 	table-layout: fixed;
 }
 
