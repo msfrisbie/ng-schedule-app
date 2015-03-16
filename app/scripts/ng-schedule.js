@@ -9,8 +9,6 @@ angular.module('ngSchedule', [])
     this.head.next = this.tail;
     this.tail.prev = this.head;
 
-    this.blocks;
-
     for (var i=0; i<granularity; ++i) {
       
       var current = new Block(1, 0);
@@ -245,6 +243,12 @@ angular.module('ngSchedule', [])
         scope.selectedBlock = scope.days[dayIdx].getBlockAtIndex(clickTargetIdx);
       }
 
+      scope.touchSelect = function(dayIdx, event) {
+        scope.$apply(function() {
+          scope.select(dayIdx, event)
+        })
+      }
+
       scope.release = function() {
         scope.selectedBlock = null;
         adjustDirection = 0;
@@ -280,6 +284,12 @@ angular.module('ngSchedule', [])
         }
       }
 
+      scope.touchCreateIfAvailable = function(dayIdx, block) {
+        scope.$apply(function() {
+          scope.createIfAvailable(dayIdx, block)
+        })
+      }
+
       scope.remove = function(dayIdx, block, $event) {
         block.remove();
         $event.stopPropagation();
@@ -288,6 +298,12 @@ angular.module('ngSchedule', [])
 
       scope.getCount = function(num) {
         return new Array(num);
+      }
+
+      scope.trackTouchMove = function(dayIdx, event) {
+        scope.$apply(function() {
+          scope.trackMove(dayIdx, event)
+        })
       }
 
       scope.trackMove = function(dayIdx, event) {
@@ -368,9 +384,21 @@ angular.module('ngSchedule', [])
         adjustDirection = -1;
       }
 
+      scope.touchAdjustBefore = function(block) {
+        scope.$apply(function() {
+          scope.adjustBefore(block)
+        })
+      }
+
       scope.adjustAfter = function(block) {
         scope.selectedBlock = block;
         adjustDirection = 1;
+      }
+
+      scope.touchAdjustAfter = function(block) {
+        scope.$apply(function() {
+          scope.adjustAfter(block)
+        })
       }
 
       scope.blockTargets = Array(24)
