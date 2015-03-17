@@ -16,7 +16,7 @@
   <div class="dayspacer"
        ng-repeat="day in days"
        ng-init="dayIdx = $index">
-		<table ng-if="configData.horizontal"
+    <table ng-if="configData.horizontal"
            class="display-blocks
                   ng-class:{'resizing-horiz': selectedBlock !== null}">
       <tr>
@@ -26,44 +26,44 @@
           {{ $index }}
         </td>
       </tr>
-			<tr class="block-row"
-				  ng-mousemove="trackMove(dayIdx, $event)"
+      <tr class="block-row"
+          ng-mousemove="trackMove(dayIdx, $event)"
           ng-mousedown="select(dayIdx, $event)"
           touchmove="trackTouchMove(dayIdx, $event)"
           touchstart="touchSelect(dayIdx, $event)">
-				<td ng-repeat="block in day.blocks" 
-					  colspan="{{ block.length }}">
+        <td ng-repeat="block in day.blocks" 
+            colspan="{{ block.length }}">
           <div class="schedule-block-content 
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)"
                touchstart="touchCreateIfAvailable(dayIdx, block)">
-						&nbsp;
-						<div class="bumper bumper-horiz left-bumper" 
+            &nbsp;
+            <div class="bumper bumper-horiz left-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
                  ng-mousedown="adjustBefore(block)"
                  touchstart="touchAdjustBefore(block)"
-							   ng-if="block.status > 0">
-						</div>
-						<div class="bumper bumper-horiz right-bumper" 
+                 ng-if="block.status > 0">
+            </div>
+            <div class="bumper bumper-horiz right-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
                  ng-mousedown="adjustAfter(block)"
                  touchstart="touchAdjustAfter(block)"
-							   ng-if="block.status > 0">
-						</div>
+                 ng-if="block.status > 0">
+            </div>
             <div class="destroy-btn destroy-btn-horiz"
                  ng-click="remove(dayIdx, block, $event)"
                  ng-touch="remove(dayIdx, block, $event)"
                  ng-if="block.destructible && block.status>0">
               <span class="glyphicon glyphicon-remove"></span>
             </div>
-					</div>
-				</td>
-			</tr>
+          </div>
+        </td>
+      </tr>
       <td ng-repeat="block in day.blocks" 
           colspan="{{ block.length }}">
         {{ block.length }}
       </tr>
-		</table>
+    </table>
 
     <table ng-if="!configData.horizontal"
            class="display-blocks block-col
@@ -106,7 +106,7 @@
         <td style="width:0"></td>
       </tr>
     </table>
-	</div>
+  </div>
   <div ng-repeat="e in eData" style="height: auto;">
     <pre>{{ e | json }}</pre>
   </div>
