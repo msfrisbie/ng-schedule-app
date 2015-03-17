@@ -206,7 +206,7 @@ angular.module('ngSchedule', [])
   }
 
 	return {
-    replace: true,
+    // replace: true,
     scope: {
       events: '=ngModel',
       configData: '='
