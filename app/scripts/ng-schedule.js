@@ -216,6 +216,8 @@ angular.module('ngSchedule', [])
     },
     link: function(scope, el, attrs, ctrl) {
 
+      scope.eData = []
+
       scope.selectedBlock = null;
       // 0 no direction
       // -1 left
@@ -301,12 +303,15 @@ angular.module('ngSchedule', [])
       }
 
       scope.trackTouchMove = function(dayIdx, event) {
+        scope.eData.push(['touchmove', event])
         scope.$apply(function() {
           scope.trackMove(dayIdx, event)
         })
       }
 
       scope.trackMove = function(dayIdx, event) {
+
+        scope.eData.push(['move', event])
 
         var timeIdx = scope.getIdx(dayIdx, event);
 
@@ -401,7 +406,7 @@ angular.module('ngSchedule', [])
         })
       }
 
-      scope.blockTargets = Array(24)
+      scope.blockTargets = Array(24);
 
       scope.days = []
 

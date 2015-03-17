@@ -13,11 +13,19 @@
     </div>
   </span>
   <div style="clear: both; height: 0; margin:0"></div>
-  <div ng-repeat="day in days"
+  <div class="dayspacer"
+       ng-repeat="day in days"
        ng-init="dayIdx = $index">
 		<table ng-if="configData.horizontal"
            class="display-blocks
                   ng-class:{'resizing-horiz': selectedBlock !== null}">
+      <tr>
+        <td ng-repeat="block in blockTargets track by $index" 
+            ng-if="$index%2==0" 
+            colspan="2">
+          {{ $index }}
+        </td>
+      </tr>
 			<tr class="block-row"
 				  ng-mousemove="trackMove(dayIdx, $event)"
           ng-mousedown="select(dayIdx, $event)"
@@ -51,6 +59,10 @@
 					</div>
 				</td>
 			</tr>
+      <td ng-repeat="block in day.blocks" 
+          colspan="{{ block.length }}">
+        {{ block.length }}
+      </tr>
 		</table>
 
     <table ng-if="!configData.horizontal"
@@ -95,4 +107,7 @@
       </tr>
     </table>
 	</div>
+  <div ng-repeat="e in eData">
+    <pre>{{ e | json }}</pre>
+  </div>
 </div>

@@ -59,6 +59,10 @@
 	opacity:1;
 }
 
+/*div.dayspacer:not(:last-child) {
+	margin-bottom: 20px;
+}
+*/
 /* horizontal CSS */
 
 .schedule-horiz tr {
@@ -70,8 +74,8 @@
 	height: 60px;
 }
 
-.schedule-horiz > div {
-	margin-bottom: 20px;
+.schedule-horiz > div:not(:last-child) {
+	margin-bottom: 40px;
 }
 
 .schedule-horiz td > div {
