@@ -218,6 +218,10 @@ angular.module('ngSchedule', [])
 
       scope.eData = []
 
+      // scope.$watch('eData', function() {
+      //   scope.eData = scope.eData.slice(0, 25)
+      // }, true)
+
       scope.selectedBlock = null;
       // 0 no direction
       // -1 left
@@ -303,7 +307,9 @@ angular.module('ngSchedule', [])
       }
 
       scope.trackTouchMove = function(dayIdx, event) {
-        scope.eData.push(['touchmove', event])
+        scope.eData.splice(0, 0, ['touchmove', event])
+        scope.eData.splice(25)
+
         scope.$apply(function() {
           scope.trackMove(dayIdx, event)
         })
@@ -311,7 +317,8 @@ angular.module('ngSchedule', [])
 
       scope.trackMove = function(dayIdx, event) {
 
-        scope.eData.push(['move', event])
+        scope.eData.splice(0, 0, ['move', event])
+        scope.eData.splice(25)
 
         var timeIdx = scope.getIdx(dayIdx, event);
 
