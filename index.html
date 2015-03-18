@@ -56,7 +56,6 @@
 
     <script type="text/ng-template" 
             id="ng-schedule.html">
-
 <div class="schedule noselect
             ng-class:{'schedule-horiz': configData.horizontal, 
                       'schedule-vert': !configData.horizontal}"
@@ -95,7 +94,7 @@
           <div class="schedule-block-content 
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)"
-               ontouchstart="touchCreateIfAvailable(dayIdx, block)">
+               ontouchstart="touchCreateIfAvailable(dayIdx, block, $event)">
             &nbsp;
             <div class="bumper bumper-horiz left-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
@@ -142,13 +141,13 @@
             <div class="bumper bumper-vert top-bumper" 
                  ng-class="{'resizing-vert': selectedBlock === null}"
                  ng-mousedown="adjustBefore(block)"
-                 touchstart="touchAdjustBefore(block)"
+                 touchstart="touchAdjustBefore(block, $event)"
                  ng-if="block.status > 0">
             </div>
             <div class="bumper bumper-vert bottom-bumper" 
                  ng-class="{'resizing-vert': selectedBlock === null}"
                  ng-mousedown="adjustAfter(block)"
-                 touchstart="touchAdjustAfter(block)"
+                 touchstart="touchAdjustAfter(block, $event)"
                  ng-if="block.status > 0">
             </div>
             <div class="destroy-btn destroy-btn-vert"
@@ -166,10 +165,8 @@
       </tr>
     </table>
   </div>
-  <div ng-repeat="e in eData" style="height: auto;">
-    <pre>{{ e | json }}</pre>
-  </div>
 </div>
+
 
 
 
