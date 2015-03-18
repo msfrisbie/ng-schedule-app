@@ -32,7 +32,7 @@
 
       function logIt(e) {
         var seen = []
-          , str = JSON.stringify(obj, function(key, val) {
+          , str = JSON.stringify(e, function(key, val) {
            if (val != null && typeof val == "object") {
                 if (seen.indexOf(val) >= 0)
                     return
