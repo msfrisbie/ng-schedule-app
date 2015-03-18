@@ -31,6 +31,8 @@
     <script>
 
       function logIt(e) {
+        console.log(e)
+        return
         var seen = []
           , str = JSON.stringify(e, function(key, val) {
            if (val != null && typeof val == "object") {
