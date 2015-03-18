@@ -8,6 +8,12 @@
   </head>
   <body ng-app="ngscheduleApp" ng-controller="MainCtrl">
 
+    <div id="target" style="width:500px; height; 500px; background-color: red;"></div>
+    <div id="log"></div>
+
+
+
+<!-- 
     <div schedule 
          class="schedule-wrap"
          config-data="configData1"
@@ -18,9 +24,17 @@
          class="schedule-wrap"
          config-data="configData2"
          ng-model="eventData">
-    </div>
+    </div> -->
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+      $('#target').on('touchmove', function(event) {
+        $('log').append(event.toString())
+      })
+
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.js"></script>
     <!-- <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
