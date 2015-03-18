@@ -216,8 +216,6 @@ angular.module('ngSchedule', [])
     },
     link: function(scope, el, attrs, ctrl) {
 
-      scope.eData = []
-
       // scope.$watch('eData', function() {
       //   scope.eData = scope.eData.slice(0, 25)
       // }, true)
@@ -250,6 +248,7 @@ angular.module('ngSchedule', [])
       }
 
       scope.touchSelect = function(dayIdx, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.select(dayIdx, event)
         })
@@ -290,7 +289,8 @@ angular.module('ngSchedule', [])
         }
       }
 
-      scope.touchCreateIfAvailable = function(dayIdx, block) {
+      scope.touchCreateIfAvailable = function(dayIdx, block, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.createIfAvailable(dayIdx, block)
         })
@@ -402,7 +402,8 @@ angular.module('ngSchedule', [])
         adjustDirection = -1;
       }
 
-      scope.touchAdjustBefore = function(block) {
+      scope.touchAdjustBefore = function(block, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.adjustBefore(block)
         })
@@ -413,7 +414,8 @@ angular.module('ngSchedule', [])
         adjustDirection = 1;
       }
 
-      scope.touchAdjustAfter = function(block) {
+      scope.touchAdjustAfter = function(block, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.adjustAfter(block)
         })
