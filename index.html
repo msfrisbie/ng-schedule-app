@@ -71,6 +71,7 @@
     </div>
   </span>
   <div style="clear: both; height: 0; margin:0"></div>
+  <div><pre>{{ touchData | json }}</pre></div>
   <div class="dayspacer"
        ng-repeat="day in days"
        ng-init="dayIdx = $index">
@@ -165,7 +166,6 @@
       </tr>
     </table>
   </div>
-  <div><pre>{{ touchData | json }}</pre></div>
 </div>
 
 
