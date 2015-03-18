@@ -32,18 +32,8 @@
 
       function logIt(e) {
         console.log(e)
-        return
-        var seen = []
-          , str = JSON.stringify(e, function(key, val) {
-           if (val != null && typeof val == "object") {
-                if (seen.indexOf(val) >= 0)
-                    return
-                seen.push(val)
-            }
-            return val
-        })
 
-        $('log').append('<div>'+str+'</div>')
+        $('log').append('<div>'+e.clientX+','+e.clientY+'</div>')
 
       }
 
