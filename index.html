@@ -8,7 +8,7 @@
   </head>
   <body ng-app="ngscheduleApp" ng-controller="MainCtrl">
 
-    <div id="target" style="width:500px; height; 500px; background-color: red;"></div>
+    <div id="target" style="width: 500px; height: 500px; background-color: red;"></div>
     <div id="log"></div>
 
 
@@ -30,7 +30,10 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script>
       $('#target').on('touchmove', function(event) {
-        $('log').append(event.toString())
+        $('log').append('<div>'+JSON.stringify(event)+'</div>')
+      })
+      $('#target').on('vmousemove', function(event) {
+        $('log').append('<div>'+JSON.stringify(event)+'</div>')
       })
 
     </script>
