@@ -13,7 +13,7 @@
 
 
 
-<!-- 
+
     <div schedule 
          class="schedule-wrap"
          config-data="configData1"
@@ -24,14 +24,15 @@
          class="schedule-wrap"
          config-data="configData2"
          ng-model="eventData">
-    </div> -->
+    </div>
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <!--<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
     <script>
 
       function logIt(e) {
-        console.log(e)
+        // console.log(e)
+        e.preventDefault();
 
         $('log').append('<div>'+e.clientX+','+e.clientY+'</div>')
 
