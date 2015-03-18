@@ -267,14 +267,14 @@ angular.module('ngSchedule', [])
           var tr = $('.block-row')[dayIdx]
             , xOffset = $(tr).offset().left
             , totalWidth = tr.offsetWidth
-            , eventX = event.pageX;
+            , eventX = event.pageX || event.originalEvent.touches[0].pageX;
 
           return Math.floor(24 * (eventX-xOffset) / (totalWidth));
         } else {
           var table = $('.block-col')[dayIdx]
             , yOffset = $(table).offset().top
             , totalHeight = table.offsetHeight
-            , eventY = event.pageY;
+            , eventY = event.pageY || event.originalEvent.touches[0].pageY;
 
           return Math.floor(24 * (eventY-yOffset) / (totalHeight));
         }
@@ -318,9 +318,6 @@ angular.module('ngSchedule', [])
       }
 
       scope.trackMove = function(dayIdx, event) {
-
-        scope.eData.splice(0, 0, ['move', event])
-        scope.eData.splice(25)
 
         var timeIdx = scope.getIdx(dayIdx, event);
 
