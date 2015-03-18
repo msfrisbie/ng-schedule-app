@@ -394,6 +394,7 @@ angular.module('ngSchedule', [])
 
 
         event.stopPropagation();
+        event.preventDefault();
       }
 
       scope.adjustBefore = function(block) {
