@@ -313,6 +313,8 @@ angular.module('ngSchedule', [])
         scope.$apply(function() {
           scope.trackMove(dayIdx, event)
         })
+
+        // event.stopPropagation();
       }
 
       scope.trackMove = function(dayIdx, event) {
@@ -389,6 +391,9 @@ angular.module('ngSchedule', [])
             }
           }
         }
+
+
+        event.stopPropagation();
       }
 
       scope.adjustBefore = function(block) {
