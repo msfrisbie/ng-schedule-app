@@ -8,10 +8,10 @@
   </head>
   <body ng-app="ngscheduleApp" ng-controller="MainCtrl">
 
-    <div id="target" style="width: 500px; height: 500px; background-color: red;"></div>
+<!--     <div id="target" style="width: 500px; height: 500px; background-color: red;"></div>
     <div id="log"></div>
 
-
+ -->
 
 
     <div schedule 
@@ -30,20 +30,20 @@
     <!--<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
     <script>
 
-      function logIt(e) {
-        // console.log(e)
-        e.preventDefault();
+      // function logIt(e) {
+      //   // console.log(e)
+      //   e.preventDefault();
 
-        $('log').append('<div>'+e.clientX+','+e.clientY+'</div>')
+      //   $('log').append('<div>'+e.clientX+','+e.clientY+'</div>')
 
-      }
+      // }
 
-      $('#target').on('touchmove', function(event) {
-        logIt(event)
-      })
-      $('#target').on('vmousemove', function(event) {
-        logIt(event)
-      })
+      // $('#target').on('touchmove', function(event) {
+      //   logIt(event)
+      // })
+      // $('#target').on('vmousemove', function(event) {
+      //   logIt(event)
+      // })
 
     </script>
 
@@ -62,8 +62,8 @@
                       'schedule-vert': !configData.horizontal}"
      ng-mouseleave="release()"
      ng-mouseup="release()"
-     touchleave="release()"
-     touchend="release()">
+     ontouchleave="release()"
+     ontouchend="release()">
   <span>
     <div ng-repeat="klass in fillClasses.slice(1)"
          class="colorpicker ng-class:[klass]"
@@ -88,25 +88,25 @@
       <tr class="block-row"
           ng-mousemove="trackMove(dayIdx, $event)"
           ng-mousedown="select(dayIdx, $event)"
-          touchmove="trackTouchMove(dayIdx, $event)"
-          touchstart="touchSelect(dayIdx, $event)">
+          ontouchmove="trackTouchMove(dayIdx, $event)"
+          ontouchstart="touchSelect(dayIdx, $event)">
         <td ng-repeat="block in day.blocks" 
             colspan="{{ block.length }}">
           <div class="schedule-block-content 
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)"
-               touchstart="touchCreateIfAvailable(dayIdx, block)">
+               ontouchstart="touchCreateIfAvailable(dayIdx, block)">
             &nbsp;
             <div class="bumper bumper-horiz left-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
                  ng-mousedown="adjustBefore(block)"
-                 touchstart="touchAdjustBefore(block)"
+                 ontouchstart="touchAdjustBefore(block)"
                  ng-if="block.status > 0">
             </div>
             <div class="bumper bumper-horiz right-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
                  ng-mousedown="adjustAfter(block)"
-                 touchstart="touchAdjustAfter(block)"
+                 ontouchstart="touchAdjustAfter(block)"
                  ng-if="block.status > 0">
             </div>
             <div class="destroy-btn destroy-btn-horiz"
@@ -170,6 +170,7 @@
     <pre>{{ e | json }}</pre>
   </div>
 </div>
+
 
 
     </script>
