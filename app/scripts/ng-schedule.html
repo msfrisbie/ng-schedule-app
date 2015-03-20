@@ -3,8 +3,8 @@
                       'schedule-vert': !configData.horizontal}"
      ng-mouseleave="release()"
      ng-mouseup="release()"
-     touchleave="release()"
-     touchend="release()">
+     ng-touchleave="release()"
+     ng-touchend="release()">
   <span>
     <div ng-repeat="klass in fillClasses.slice(1)"
          class="colorpicker ng-class:[klass]"
@@ -29,25 +29,25 @@
 			<tr class="block-row"
 				  ng-mousemove="trackMove(dayIdx, $event)"
           ng-mousedown="select(dayIdx, $event)"
-          touchmove="trackTouchMove(dayIdx, $event)"
-          touchstart="touchSelect(dayIdx, $event)">
+          ng-touchmove="trackTouchMove(dayIdx, $event)"
+          ng-touchstart="touchSelect(dayIdx, $event)">
 				<td ng-repeat="block in day.blocks" 
 					  colspan="{{ block.length }}">
           <div class="schedule-block-content 
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)"
-               touchstart="touchCreateIfAvailable(dayIdx, block)">
+               ng-touchstart="touchCreateIfAvailable(dayIdx, block)">
 						&nbsp;
 						<div class="bumper bumper-horiz left-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
                  ng-mousedown="adjustBefore(block)"
-                 touchstart="touchAdjustBefore(block)"
+                 ng-touchstart="touchAdjustBefore(block)"
 							   ng-if="block.status > 0">
 						</div>
 						<div class="bumper bumper-horiz right-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
                  ng-mousedown="adjustAfter(block)"
-                 touchstart="touchAdjustAfter(block)"
+                 ng-touchstart="touchAdjustAfter(block)"
 							   ng-if="block.status > 0">
 						</div>
             <div class="destroy-btn destroy-btn-horiz"
@@ -71,25 +71,25 @@
       <tr ng-repeat-start="block in day.blocks"
           ng-mousemove="trackMove(dayIdx, $event)"
           ng-mousedown="select(dayIdx, $event)"
-          touchmove="trackTouchMove(dayIdx, $event)"
-          touchstart="touchSelect(dayIdx, $event)">
+          ng-touchmove="trackTouchMove(dayIdx, $event)"
+          ng-touchstart="touchSelect(dayIdx, $event)">
         <td class="vert-row-spacer vert-row-spacer-ff"
             rowspan="{{ block.length }}">
           <div class="schedule-block-content 
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)"
-               touchstart="touchCreateIfAvailable(dayIdx, block)">
+               ng-touchstart="touchCreateIfAvailable(dayIdx, block)">
             &nbsp;
             <div class="bumper bumper-vert top-bumper" 
                  ng-class="{'resizing-vert': selectedBlock === null}"
                  ng-mousedown="adjustBefore(block)"
-                 touchstart="touchAdjustBefore(block)"
+                 ng-touchstart="touchAdjustBefore(block)"
                  ng-if="block.status > 0">
             </div>
             <div class="bumper bumper-vert bottom-bumper" 
                  ng-class="{'resizing-vert': selectedBlock === null}"
                  ng-mousedown="adjustAfter(block)"
-                 touchstart="touchAdjustAfter(block)"
+                 ng-touchstart="touchAdjustAfter(block)"
                  ng-if="block.status > 0">
             </div>
             <div class="destroy-btn destroy-btn-vert"

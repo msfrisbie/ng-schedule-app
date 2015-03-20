@@ -205,7 +205,7 @@ angular.module('ngSchedule', [])
 
   }
 
-	return {
+  return {
     replace: true,
     scope: {
       events: '=ngModel',
@@ -215,8 +215,6 @@ angular.module('ngSchedule', [])
 
     },
     link: function(scope, el, attrs, ctrl) {
-
-      scope.eData = []
 
       // scope.$watch('eData', function() {
       //   scope.eData = scope.eData.slice(0, 25)
@@ -250,6 +248,7 @@ angular.module('ngSchedule', [])
       }
 
       scope.touchSelect = function(dayIdx, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.select(dayIdx, event)
         })
@@ -264,22 +263,27 @@ angular.module('ngSchedule', [])
 
       scope.getIdx = function(dayIdx, event) {
         
+        scope.touchData = event
+
         if (scope.configData.horizontal) {
           var tr = $('.block-row')[dayIdx]
             , xOffset = $(tr).offset().left
             , totalWidth = tr.offsetWidth
-            , eventX = event.pageX;
+            , eventX = event.pageX || event.originalEvent.touches[0].pageX;
 
           return Math.floor(24 * (eventX-xOffset) / (totalWidth));
         } else {
           var table = $('.block-col')[dayIdx]
             , yOffset = $(table).offset().top
             , totalHeight = table.offsetHeight
-            , eventY = event.pageY;
+            , eventY = event.pageY || event.originalEvent.touches[0].pageY;
 
           return Math.floor(24 * (eventY-yOffset) / (totalHeight));
         }
       }
+
+      // console.log(el, $(el), $(el).find('tr'))
+      window.el = el
 
       scope.createIfAvailable = function(dayIdx, block) {
         if (block.available()) {
@@ -290,7 +294,8 @@ angular.module('ngSchedule', [])
         }
       }
 
-      scope.touchCreateIfAvailable = function(dayIdx, block) {
+      scope.touchCreateIfAvailable = function(dayIdx, block, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.createIfAvailable(dayIdx, block)
         })
@@ -313,12 +318,11 @@ angular.module('ngSchedule', [])
         scope.$apply(function() {
           scope.trackMove(dayIdx, event)
         })
+
+        // event.stopPropagation();
       }
 
       scope.trackMove = function(dayIdx, event) {
-
-        scope.eData.splice(0, 0, ['move', event])
-        scope.eData.splice(25)
 
         var timeIdx = scope.getIdx(dayIdx, event);
 
@@ -389,6 +393,10 @@ angular.module('ngSchedule', [])
             }
           }
         }
+
+
+        event.stopPropagation();
+        event.preventDefault();
       }
 
       scope.adjustBefore = function(block) {
@@ -396,7 +404,8 @@ angular.module('ngSchedule', [])
         adjustDirection = -1;
       }
 
-      scope.touchAdjustBefore = function(block) {
+      scope.touchAdjustBefore = function(block, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.adjustBefore(block)
         })
@@ -407,7 +416,8 @@ angular.module('ngSchedule', [])
         adjustDirection = 1;
       }
 
-      scope.touchAdjustAfter = function(block) {
+      scope.touchAdjustAfter = function(block, event) {
+        event.preventDefault();
         scope.$apply(function() {
           scope.adjustAfter(block)
         })
@@ -425,5 +435,53 @@ angular.module('ngSchedule', [])
     },
     // TODO: change this to template strings when finished
     templateUrl: 'scripts/ng-schedule.html'
+  };
+})
+.directive('ngTouchstart', function($parse) {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('touchstart', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchstart']))
+        window.myfn = $parse(attrs['ngTouchstart'])
+      })
+    }
+  };
+})
+.directive('ngTouchend', function() {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('ngTouchend', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchend']))
+        window.myfn = $parse(attrs['ngTouchend'])
+      })
+    }
+  };
+})
+.directive('ngTouchleave', function() {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('ngTouchleave', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchleave']))
+        window.myfn = $parse(attrs['ngTouchleave'])
+      })
+    }
+  };
+})
+.directive('ngTouchmove', function() {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('ngTouchmove', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchmove']))
+        window.myfn = $parse(attrs['ngTouchmove'])
+      })
+    }
   };
 })
