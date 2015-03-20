@@ -263,8 +263,6 @@ angular.module('ngSchedule', [])
 
       scope.getIdx = function(dayIdx, event) {
         
-        scope.touchData = event
-
         if (scope.configData.horizontal) {
           var tr = $('.block-row')[dayIdx]
             , xOffset = $(tr).offset().left
