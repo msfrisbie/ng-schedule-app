@@ -450,7 +450,7 @@ angular.module('ngSchedule', [])
 .directive('ngTouchend', function() {
   return {
     link: function(scope, el, attrs) {
-      el.on('ngTouchend', function(event) {
+      el.on('touchend', function(event) {
         event.preventDefault();
         console.log(attrs)
         console.log($parse(attrs['ngTouchend'])(scope))
@@ -462,7 +462,7 @@ angular.module('ngSchedule', [])
 .directive('ngTouchleave', function() {
   return {
     link: function(scope, el, attrs) {
-      el.on('ngTouchleave', function(event) {
+      el.on('touchleave', function(event) {
         event.preventDefault();
         console.log(attrs)
         console.log($parse(attrs['ngTouchleave'])(scope))
@@ -474,7 +474,7 @@ angular.module('ngSchedule', [])
 .directive('ngTouchmove', function() {
   return {
     link: function(scope, el, attrs) {
-      el.on('ngTouchmove', function(event) {
+      el.on('touchmove', function(event) {
         event.preventDefault();
         console.log(attrs)
         console.log($parse(attrs['ngTouchmove'])(scope))
