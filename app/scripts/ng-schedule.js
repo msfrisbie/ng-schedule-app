@@ -412,7 +412,7 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchstart', function(event) {
         event.preventDefault();
-        console.log(attrs)
+        console.log(attrs, event)
         console.log($parse(attrs['ngTouchstart'])(scope))
         // window.myfn = $parse(attrs['ngTouchstart'])
       })
@@ -424,7 +424,7 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchend', function(event) {
         event.preventDefault();
-        console.log(attrs)
+        console.log(attrs, event)
         console.log($parse(attrs['ngTouchend'])(scope))
         // window.myfn = $parse(attrs['ngTouchend'])
       })
@@ -436,7 +436,7 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchleave', function(event) {
         event.preventDefault();
-        console.log(attrs)
+        console.log(attrs, event)
         console.log($parse(attrs['ngTouchleave'])(scope))
         // window.myfn = $parse(attrs['ngTouchleave'])
       })
@@ -448,7 +448,7 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchmove', function(event) {
         event.preventDefault();
-        console.log(attrs)
+        console.log(attrs, event)
         console.log($parse(attrs['ngTouchmove'])(scope))
         // window.myfn = $parse(attrs['ngTouchmove'])
       })
