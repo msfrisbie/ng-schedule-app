@@ -205,7 +205,7 @@ angular.module('ngSchedule', [])
 
   }
 
-	return {
+  return {
     replace: true,
     scope: {
       events: '=ngModel',
@@ -281,6 +281,9 @@ angular.module('ngSchedule', [])
           return Math.floor(24 * (eventY-yOffset) / (totalHeight));
         }
       }
+
+      // console.log(el, $(el), $(el).find('tr'))
+      window.el = el
 
       scope.createIfAvailable = function(dayIdx, block) {
         if (block.available()) {
@@ -432,5 +435,53 @@ angular.module('ngSchedule', [])
     },
     // TODO: change this to template strings when finished
     templateUrl: 'ng-schedule.html'
+  };
+})
+.directive('ngTouchstart', function($parse) {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('touchstart', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchstart']))
+        window.myfn = $parse(attrs['ngTouchstart'])
+      })
+    }
+  };
+})
+.directive('ngTouchend', function() {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('ngTouchend', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchend']))
+        window.myfn = $parse(attrs['ngTouchend'])
+      })
+    }
+  };
+})
+.directive('ngTouchleave', function() {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('ngTouchleave', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchleave']))
+        window.myfn = $parse(attrs['ngTouchleave'])
+      })
+    }
+  };
+})
+.directive('ngTouchmove', function() {
+  return {
+    link: function(scope, el, attrs) {
+      el.on('ngTouchmove', function(event) {
+        event.preventDefault();
+        console.log(attrs)
+        console.log($parse(attrs['ngTouchmove']))
+        window.myfn = $parse(attrs['ngTouchmove'])
+      })
+    }
   };
 })
