@@ -283,7 +283,7 @@ angular.module('ngSchedule', [])
       }
 
       // console.log(el, $(el), $(el).find('tr'))
-      window.el = el
+      // window.el = el
 
       scope.createIfAvailable = function(dayIdx, block) {
         if (block.available()) {
@@ -443,8 +443,8 @@ angular.module('ngSchedule', [])
       el.on('touchstart', function(event) {
         event.preventDefault();
         console.log(attrs)
-        console.log($parse(attrs['ngTouchstart']))
-        window.myfn = $parse(attrs['ngTouchstart'])
+        console.log($parse(attrs['ngTouchstart'])(scope))
+        // window.myfn = $parse(attrs['ngTouchstart'])
       })
     }
   };
@@ -455,8 +455,8 @@ angular.module('ngSchedule', [])
       el.on('ngTouchend', function(event) {
         event.preventDefault();
         console.log(attrs)
-        console.log($parse(attrs['ngTouchend']))
-        window.myfn = $parse(attrs['ngTouchend'])
+        console.log($parse(attrs['ngTouchend'])(scope))
+        // window.myfn = $parse(attrs['ngTouchend'])
       })
     }
   };
@@ -467,8 +467,8 @@ angular.module('ngSchedule', [])
       el.on('ngTouchleave', function(event) {
         event.preventDefault();
         console.log(attrs)
-        console.log($parse(attrs['ngTouchleave']))
-        window.myfn = $parse(attrs['ngTouchleave'])
+        console.log($parse(attrs['ngTouchleave'])(scope))
+        // window.myfn = $parse(attrs['ngTouchleave'])
       })
     }
   };
@@ -479,8 +479,8 @@ angular.module('ngSchedule', [])
       el.on('ngTouchmove', function(event) {
         event.preventDefault();
         console.log(attrs)
-        console.log($parse(attrs['ngTouchmove']))
-        window.myfn = $parse(attrs['ngTouchmove'])
+        console.log($parse(attrs['ngTouchmove'])(scope))
+        // window.myfn = $parse(attrs['ngTouchmove'])
       })
     }
   };
