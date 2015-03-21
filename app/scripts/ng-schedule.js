@@ -256,6 +256,7 @@ angular.module('ngSchedule', [])
 
       scope.getIdx = function(dayIdx, event) {
         
+        
         if (scope.configData.horizontal) {
           var tr = $('.block-row')[dayIdx]
             , xOffset = $(tr).offset().left
@@ -264,10 +265,14 @@ angular.module('ngSchedule', [])
 
           return Math.floor(24 * (eventX-xOffset) / (totalWidth));
         } else {
-          var table = $('.block-col')[dayIdx]
-            , yOffset = $(table).offset().top
-            , totalHeight = table.offsetHeight
-            , eventY = event.pageY || event.originalEvent.touches[0].pageY;
+          try {
+            var table = $('.block-col')[dayIdx]
+              , yOffset = $(table).offset().top
+              , totalHeight = table.offsetHeight
+              , eventY = event.pageY || event.originalEvent.touches[0].pageY;
+          } catch (err) {
+            console.log('error!', err, dayIdx, event)
+          }
 
           return Math.floor(24 * (eventY-yOffset) / (totalHeight));
         }
@@ -419,7 +424,7 @@ angular.module('ngSchedule', [])
     }
   };
 })
-.directive('ngTouchend', function() {
+.directive('ngTouchend', function($parse) {
   return {
     link: function(scope, el, attrs) {
       el.on('touchend', function(event) {
@@ -431,7 +436,7 @@ angular.module('ngSchedule', [])
     }
   };
 })
-.directive('ngTouchleave', function() {
+.directive('ngTouchleave', function($parse) {
   return {
     link: function(scope, el, attrs) {
       el.on('touchleave', function(event) {
@@ -443,7 +448,7 @@ angular.module('ngSchedule', [])
     }
   };
 })
-.directive('ngTouchmove', function() {
+.directive('ngTouchmove', function($parse) {
   return {
     link: function(scope, el, attrs) {
       el.on('touchmove', function(event) {
