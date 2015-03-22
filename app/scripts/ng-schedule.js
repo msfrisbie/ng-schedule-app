@@ -417,10 +417,9 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchstart', function(event) {
         event.preventDefault();
-        console.log(attrs)
-        console.log($parse(attrs['ngTouchstart'])(scope))
-        // window.myfn = $parse(attrs['ngTouchstart'])
-      })
+
+        // this needs to pass the block and browser event to getIdx, currently is undefined
+        $parse(attrs['ngTouchstart'])(scope, {'$event': event});
     }
   };
 })
@@ -429,9 +428,7 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchend', function(event) {
         event.preventDefault();
-        console.log(attrs)
-        console.log($parse(attrs['ngTouchend'])(scope))
-        // window.myfn = $parse(attrs['ngTouchend'])
+        $parse(attrs['ngTouchend'])(scope, {'$event': event});
       })
     }
   };
@@ -441,9 +438,8 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchleave', function(event) {
         event.preventDefault();
-        console.log(attrs)
-        console.log($parse(attrs['ngTouchleave'])(scope))
-        // window.myfn = $parse(attrs['ngTouchleave'])
+        scope.$event = event;
+        $parse(attrs['ngTouchleave'])(scope, {'$event': event});
       })
     }
   };
@@ -453,9 +449,8 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchmove', function(event) {
         event.preventDefault();
-        console.log(attrs)
-        console.log($parse(attrs['ngTouchmove'])(scope))
-        // window.myfn = $parse(attrs['ngTouchmove'])
+        scope.$event = event;
+        $parse(attrs['ngTouchleave'])(scope, {'$event': event});
       })
     }
   };
