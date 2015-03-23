@@ -13,8 +13,7 @@
     </div>
   </span>
   <div style="clear: both; height: 0; margin:0"></div>
-  <div class="dayspacer"
-       ng-repeat="day in days"
+  <div ng-repeat="day in days"
        ng-init="dayIdx = $index">
 		<table ng-if="configData.horizontal"
            class="display-blocks
@@ -59,10 +58,14 @@
 					</div>
 				</td>
 			</tr>
-      <td ng-repeat="block in day.blocks" 
-          colspan="{{ block.length }}">
-        {{ block.length }}
-        <!-- TOOD: invalid html??? -->
+      <tr class="timestamp">
+        <td ng-repeat="block in day.blocks" 
+            colspan="{{ block.length }}">
+          <div ng-class="{timerange: block.status>0}"></div>
+          <span ng-if="block.status>0">
+            {{ block.length }} {{ block.start() }} {{ block.end() }}
+          </span>
+        </td>
       </tr>
 		</table>
 
@@ -108,7 +111,4 @@
       </tr>
     </table>
 	</div>
-  <div ng-repeat="e in eData" style="height: auto;">
-    <pre>{{ e | json }}</pre>
-  </div>
 </div>

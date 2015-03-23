@@ -59,10 +59,23 @@
 	opacity:1;
 }
 
-/*div.dayspacer:not(:last-child) {
-	margin-bottom: 20px;
+.timerange {
+	position: absolute;
+	border-sizing: border-box;
+	/*border-left: 1px solid black;*/
+	border-bottom: 1px solid black;
+	/*border-right: 1px solid black;*/
+	text-align: center;
 }
-*/
+
+.timestamp td {
+	height: auto;
+}
+
+.timestamp span {
+	position: absolute;
+}
+
 /* horizontal CSS */
 
 .schedule-horiz tr {
@@ -70,22 +83,24 @@
 }
 
 .schedule-horiz > div:not(.colorpicker) {
-	position: relative;
-	height: 60px;
+	/*position: relative;*/
+	/*height: 60px;*/
+	/*height: auto;*/
 }
 
 .schedule-horiz > div:not(:last-child) {
-	margin-bottom: 40px;
+	/*margin-bottom: 40px;*/
 }
 
-.schedule-horiz td > div {
+.schedule-horiz .block-row td > div,
+.schedule-horiz .block-col td > div {
 	height: 60px;
 }
 
 .schedule-horiz table {
 	width: 100%;
 	top: 0px;
-	position: absolute;
+	/*position: absolute;*/
 	table-layout: fixed;
 }
 

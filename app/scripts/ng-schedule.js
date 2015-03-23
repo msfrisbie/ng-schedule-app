@@ -216,10 +216,6 @@ angular.module('ngSchedule', [])
     },
     link: function(scope, el, attrs, ctrl) {
 
-      // scope.$watch('eData', function() {
-      //   scope.eData = scope.eData.slice(0, 25)
-      // }, true)
-
       scope.selectedBlock = null;
       // 0 no direction
       // -1 left
@@ -299,17 +295,6 @@ angular.module('ngSchedule', [])
       scope.getCount = function(num) {
         return new Array(num);
       }
-
-      // scope.trackTouchMove = function(dayIdx, event) {
-      //   scope.eData.splice(0, 0, ['touchmove', event])
-      //   scope.eData.splice(25)
-
-      //   scope.$apply(function() {
-      //     scope.trackMove(dayIdx, event)
-      //   })
-
-        // event.stopPropagation();
-      // }
 
       scope.trackMove = function(dayIdx, event) {
 
