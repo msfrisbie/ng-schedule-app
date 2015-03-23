@@ -419,6 +419,7 @@ angular.module('ngSchedule', [])
         event.preventDefault();
         // this needs to pass the block and browser event to getIdx, currently is undefined
         $parse(attrs['ngTouchstart'])(scope, {'$event': event});
+      });
     }
   };
 })
@@ -428,7 +429,7 @@ angular.module('ngSchedule', [])
       el.on('touchend', function(event) {
         event.preventDefault();
         $parse(attrs['ngTouchend'])(scope, {'$event': event});
-      })
+      });
     }
   };
 })
@@ -438,8 +439,8 @@ angular.module('ngSchedule', [])
       el.on('touchleave', function(event) {
         event.preventDefault();
         $parse(attrs['ngTouchleave'])(scope, {'$event': event});
-      })
-    }
+      });
+    };
   };
 })
 .directive('ngTouchmove', function($parse) {
