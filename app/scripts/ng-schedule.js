@@ -417,7 +417,6 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchstart', function(event) {
         event.preventDefault();
-        // this needs to pass the block and browser event to getIdx, currently is undefined
         $parse(attrs['ngTouchstart'])(scope, {'$event': event});
       });
     }
