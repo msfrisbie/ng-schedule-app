@@ -59,12 +59,14 @@
 				</td>
 			</tr>
       <tr class="timestamp">
-        <td ng-repeat="block in day.blocks" 
+        <td ng-class="{invisible: block.status<1}" 
+            ng-repeat="block in day.blocks" 
             colspan="{{ block.length }}">
-          <div ng-class="{timerange: block.status>0}"></div>
-          <span ng-class="{invisible: block.status<1}">
+          <!-- <div ng-class="{timerange: block.status>0}"></div> -->
+          <span>
             {{ block.length }} {{ block.start() }} {{ block.end() }}
           </span>
+          <div style="width: 100%; height: 100%; border-bottom: 1px solid black;"></div>
         </td>
       </tr>
 		</table>

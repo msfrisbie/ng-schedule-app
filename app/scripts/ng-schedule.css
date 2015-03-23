@@ -60,20 +60,25 @@
 }
 
 .timerange {
-	position: absolute;
-	border-sizing: border-box;
+	/*position: absolute;*/
+	height: 50%;
+	width: inherit;
+
+	/*border-sizing: border-box;*/
+
 	/*border-left: 1px solid black;*/
 	border-bottom: 1px solid black;
 	/*border-right: 1px solid black;*/
-	text-align: center;
 }
 
 .timestamp td {
-	height: auto;
+	/*position: relative;*/
+	text-align: center;
+	/*height: auto;*/
 }
 
 .invisible {
-	/*opacity: 0;*/
+	opacity: 0;
 }
 
 .timestamp span {
