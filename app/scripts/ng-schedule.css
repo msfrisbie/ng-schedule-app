@@ -72,8 +72,12 @@
 	height: auto;
 }
 
+.invisible {
+	/*opacity: 0;*/
+}
+
 .timestamp span {
-	position: absolute;
+	/*position: absolute;*/
 }
 
 /* horizontal CSS */

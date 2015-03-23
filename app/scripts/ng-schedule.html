@@ -62,7 +62,7 @@
         <td ng-repeat="block in day.blocks" 
             colspan="{{ block.length }}">
           <div ng-class="{timerange: block.status>0}"></div>
-          <span ng-if="block.status>0">
+          <span ng-class="{invisible: block.status<1}">
             {{ block.length }} {{ block.start() }} {{ block.end() }}
           </span>
         </td>
