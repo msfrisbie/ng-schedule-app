@@ -454,7 +454,7 @@ angular.module('ngSchedule', [])
       el.on('ngTouchmove', function(event) {
         event.preventDefault();
         scope.$apply(function() {
-          $parse(attrs['ngTouchleave'])(scope, {'$event': event});
+          $parse(attrs['ngTouchmove'])(scope, {'$event': event});
         });
       })
     }
