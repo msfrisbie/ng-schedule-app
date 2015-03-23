@@ -420,6 +420,7 @@ angular.module('ngSchedule', [])
 
         // this needs to pass the block and browser event to getIdx, currently is undefined
         $parse(attrs['ngTouchstart'])(scope, {'$event': event});
+      });
     }
   };
 })
