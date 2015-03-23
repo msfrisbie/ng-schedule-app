@@ -439,7 +439,7 @@ angular.module('ngSchedule', [])
         event.preventDefault();
         $parse(attrs['ngTouchleave'])(scope, {'$event': event});
       });
-    };
+    }
   };
 })
 .directive('ngTouchmove', function($parse) {
