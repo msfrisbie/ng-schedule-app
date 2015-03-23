@@ -123,6 +123,7 @@
       <td ng-repeat="block in day.blocks" 
           colspan="{{ block.length }}">
         {{ block.length }}
+        <!-- TOOD: invalid html??? -->
       </tr>
     </table>
 
@@ -167,9 +168,6 @@
         <td style="width:0"></td>
       </tr>
     </table>
-  </div>
-  <div ng-repeat="e in eData" style="height: auto;">
-    <pre>{{ e | json }}</pre>
   </div>
 </div>
 
