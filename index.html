@@ -70,7 +70,7 @@
     <div ng-repeat="klass in fillClasses.slice(1)"
          class="colorpicker ng-class:[klass]"
          ng-click="selectClass($index+1)"
-         ng-touch="selectClass($index+1)">
+         ng-touchstart="selectClass($index+1)">
     </div>
   </span>
   <div style="clear: both; height: 0; margin:0"></div>
@@ -113,7 +113,7 @@
             </div>
             <div class="destroy-btn destroy-btn-horiz"
                  ng-click="remove(dayIdx, block, $event)"
-                 ng-touch="remove(dayIdx, block, $event)"
+                 ng-touchstart="remove(dayIdx, block, $event)"
                  ng-if="block.destructible && block.status>0">
               <span class="glyphicon glyphicon-remove"></span>
             </div>
@@ -156,7 +156,7 @@
             </div>
             <div class="destroy-btn destroy-btn-vert"
                  ng-click="remove(dayIdx, block, $event)"
-                 ng-touch="remove(dayIdx, block, $event)"
+                 ng-touchstart="remove(dayIdx, block, $event)"
                  ng-if="block.destructible && block.status>0">
               <span class="glyphicon glyphicon-remove"></span>
             </div>
@@ -170,6 +170,7 @@
     </table>
   </div>
 </div>
+
 
 
 
