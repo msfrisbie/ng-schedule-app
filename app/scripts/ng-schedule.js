@@ -417,7 +417,9 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchstart', function(event) {
         event.preventDefault();
-        $parse(attrs['ngTouchstart'])(scope, {'$event': event});
+        $scope.$apply(function() {
+          $parse(attrs['ngTouchstart'])(scope, {'$event': event});
+        });
       });
     }
   };
@@ -427,8 +429,10 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchend', function(event) {
         event.preventDefault();
-        $parse(attrs['ngTouchend'])(scope, {'$event': event});
-      })
+        $scope.$apply(function() {
+          $parse(attrs['ngTouchend'])(scope, {'$event': event});
+        });
+      });
     }
   };
 })
@@ -437,8 +441,10 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchleave', function(event) {
         event.preventDefault();
-        $parse(attrs['ngTouchleave'])(scope, {'$event': event});
-      })
+        $scope.$apply(function() {
+          $parse(attrs['ngTouchleave'])(scope, {'$event': event});
+        });
+      });
     }
   };
 })
@@ -447,7 +453,9 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchmove', function(event) {
         event.preventDefault();
-        $parse(attrs['ngTouchleave'])(scope, {'$event': event});
+        $scope.$apply(function() {
+          $parse(attrs['ngTouchleave'])(scope, {'$event': event});
+        });
       })
     }
   };
