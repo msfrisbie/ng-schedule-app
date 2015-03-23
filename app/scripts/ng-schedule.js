@@ -309,7 +309,7 @@ angular.module('ngSchedule', [])
       //   })
 
         // event.stopPropagation();
-      }
+      // }
 
       scope.trackMove = function(dayIdx, event) {
 
