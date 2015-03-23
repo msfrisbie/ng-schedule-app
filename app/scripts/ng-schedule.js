@@ -417,8 +417,6 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchstart', function(event) {
         event.preventDefault();
-
-        // this needs to pass the block and browser event to getIdx, currently is undefined
         $parse(attrs['ngTouchstart'])(scope, {'$event': event});
       });
     }
@@ -439,7 +437,6 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchleave', function(event) {
         event.preventDefault();
-        scope.$event = event;
         $parse(attrs['ngTouchleave'])(scope, {'$event': event});
       })
     }
@@ -450,7 +447,6 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('ngTouchmove', function(event) {
         event.preventDefault();
-        scope.$event = event;
         $parse(attrs['ngTouchleave'])(scope, {'$event': event});
       })
     }
