@@ -300,13 +300,13 @@ angular.module('ngSchedule', [])
         return new Array(num);
       }
 
-      scope.trackTouchMove = function(dayIdx, event) {
-        scope.eData.splice(0, 0, ['touchmove', event])
-        scope.eData.splice(25)
+      // scope.trackTouchMove = function(dayIdx, event) {
+      //   scope.eData.splice(0, 0, ['touchmove', event])
+      //   scope.eData.splice(25)
 
-        scope.$apply(function() {
-          scope.trackMove(dayIdx, event)
-        })
+      //   scope.$apply(function() {
+      //     scope.trackMove(dayIdx, event)
+      //   })
 
         // event.stopPropagation();
       }
