@@ -13,16 +13,24 @@
     </div>
   </span>
   <div style="clear: both; height: 0; margin:0"></div>
-  <div ng-repeat="day in days"
+  <div class="dayblock"
+       ng-repeat="day in days"
        ng-init="dayIdx = $index">
 		<table ng-if="configData.horizontal"
            class="display-blocks
                   ng-class:{'resizing-horiz': selectedBlock !== null}">
       <tr>
         <td ng-repeat="block in blockTargets track by $index" 
-            ng-if="$index%2==0" 
-            colspan="2">
-          {{ $index }}
+            ng-if="$index%3==0" 
+            colspan="3">
+          <div style="font-weight: bold; 
+                      border-left: 1px solid #AAAAAA; 
+                      padding-left: 3px;
+                      color: #AAAAAA">
+            <span>
+              {{ (($index-1)%12) + 1 }}:00&nbsp;{{ !($index>12) ? 'AM' : 'PM' }}
+            </span>
+          </div>
         </td>
       </tr>
 			<tr class="block-row"
@@ -36,7 +44,19 @@
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)"
                ng-touchstart="createIfAvailable(dayIdx, block)">
-						&nbsp;
+						<!-- &nbsp; -->
+            <!-- <span class="ng-class:[fillClasses[block.status]]"> -->
+            <span ng-if="block.status>0">
+              {{ block.start() }}:00 - {{ block.end() + 1 }}:00
+            </span>
+            <div ng-if="block.status<1 && block.start()%3==0"
+                 style="height:100%; 
+                        width: 1px;
+                        position: absolute;
+                        background-color: #AAAAAA;
+                        left: 0;">
+            </div>
+            <!-- </span> -->
 						<div class="bumper bumper-horiz left-bumper" 
                  ng-class="{'resizing-horiz': selectedBlock === null}"
                  ng-mousedown="adjustBefore(block)"
@@ -58,17 +78,15 @@
 					</div>
 				</td>
 			</tr>
-      <tr class="timestamp">
+      <!-- <tr class="timestamp">
         <td ng-class="{invisible: block.status<1}" 
             ng-repeat="block in day.blocks" 
             colspan="{{ block.length }}">
-          <!-- <div ng-class="{timerange: block.status>0}"></div> -->
-          <span>
-            {{ block.length }} {{ block.start() }} {{ block.end() }}
-          </span>
-          <div style="width: 100%; height: 100%; border-bottom: 1px solid black;"></div>
+          <div>
+            <span class="ng-class:[fillClasses[block.status]]">{{ block.start() }}:00&nbsp;-&nbsp;{{ block.end() + 1 }}:00</span>
+          </div>
         </td>
-      </tr>
+      </tr> -->
 		</table>
 
     <table ng-if="!configData.horizontal"

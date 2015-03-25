@@ -402,6 +402,7 @@ angular.module('ngSchedule', [])
     link: function(scope, el, attrs) {
       el.on('touchstart', function(event) {
         event.preventDefault();
+        // could also be scope.$eval()
         scope.$apply(function() {
           $parse(attrs['ngTouchstart'])(scope, {'$event': event});
         });
