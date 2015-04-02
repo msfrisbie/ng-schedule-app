@@ -1,6 +1,9 @@
 angular.module('ngSchedule', [])
 .directive('schedule', function() {
 
+  if (moment === undefined)
+    console.error('moment.js required for this plugin to work');
+
   function Day(granularity) {
 
     this.head = new Block(0);
