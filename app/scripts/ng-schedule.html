@@ -28,7 +28,7 @@
                       padding-left: 3px;
                       color: #AAAAAA">
             <span>
-              {{ (($index-1)%12) + 1 }}:00&nbsp;{{ !($index>12) ? 'AM' : 'PM' }}
+              {{ (($index-1)%12) + 1 }}:00&nbsp;{{ !($index>=12) ? 'AM' : 'PM' }}
             </span>
           </div>
         </td>

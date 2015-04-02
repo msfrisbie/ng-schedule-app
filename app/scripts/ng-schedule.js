@@ -97,11 +97,11 @@ angular.module('ngSchedule', [])
 
     this.detach = function() {
 
-      var next = this.next
-      var prev = this.prev
+      var next = this.next;
+      var prev = this.prev;
 
-      prev.next = next
-      next.prev = prev
+      prev.next = next;
+      next.prev = prev;
 
       this.next = null;
       this.prev = null;
@@ -112,7 +112,7 @@ angular.module('ngSchedule', [])
 
     this.remove = function() {
       while (this.length > 1) {
-        this.retractLeft()
+        this.retractLeft();
       }
       this.status = 0;
       this.selectionOffset = null;
@@ -199,11 +199,11 @@ angular.module('ngSchedule', [])
     }
 
     this.shiftRight = function() {
-      return this.shift(this.next)
+      return this.shift(this.next);
     }
 
     this.shiftLeft = function() {
-      return this.shift(this.prev)
+      return this.shift(this.prev);
     }
 
   }
@@ -229,13 +229,8 @@ angular.module('ngSchedule', [])
         , fillClassIdx = 1;
 
       scope.fillClasses = [
-        'schedule-block-available',
-        'btn-primary',
-        'btn-success',
-        'btn-info',
-        'btn-warning',
-        'btn-danger'
-      ]
+        'schedule-block-available'
+      ].concat(scope.configData.fillClasses)
 
       scope.selectClass = function(idx) {
         fillClassIdx = idx;
@@ -254,7 +249,6 @@ angular.module('ngSchedule', [])
       }
 
       scope.getIdx = function(dayIdx, event) {
-        
         
         if (scope.configData.horizontal) {
           var tr = $('.block-row')[dayIdx]
@@ -390,7 +384,7 @@ angular.module('ngSchedule', [])
 
       scope.days = []
 
-      for (var i=0; i<3; ++i) {
+      for (var i=0; i<scope.configData.days; ++i) {
         var day = new Day(24);
 
         scope.days.push(day);
