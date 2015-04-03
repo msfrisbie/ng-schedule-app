@@ -132,10 +132,10 @@
 	/*border-top: 1px solid #CCCCCC;*/
 	/*border-bottom: 1px solid #CCCCCC;*/
 }
-
+/*
 .schedule-horiz .dayblock:not(:last-child) {
 	margin-bottom: 20px;
-}
+}*/
 
 .schedule-horiz .block-row td > div,
 .schedule-horiz .block-col td > div {

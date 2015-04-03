@@ -219,6 +219,10 @@ angular.module('ngSchedule', [])
     },
     link: function(scope, el, attrs, ctrl) {
 
+      var displayLength = scope.configData.dayDivisions
+        - scope.configData.startBuffer
+        - scope.configData.endBuffer; 
+
       scope.selectedBlock = null;
       // 0 no direction
       // -1 left
@@ -256,7 +260,7 @@ angular.module('ngSchedule', [])
             , totalWidth = tr.offsetWidth
             , eventX = event.pageX || event.originalEvent.touches[0].pageX;
 
-          return Math.floor(24 * (eventX-xOffset) / (totalWidth));
+          return Math.floor(displayLength * (eventX-xOffset) / (totalWidth));
         } else {
           try {
             var table = $('.block-col')[dayIdx]
@@ -267,7 +271,7 @@ angular.module('ngSchedule', [])
             console.log('error!', err, dayIdx, event)
           }
 
-          return Math.floor(24 * (eventY-yOffset) / (totalHeight));
+          return Math.floor(displayLength * (eventY-yOffset) / (totalHeight));
         }
       }
 
@@ -380,12 +384,12 @@ angular.module('ngSchedule', [])
         adjustDirection = 1;
       }
 
-      scope.blockTargets = Array(24);
+      scope.blockTargets = Array(displayLength);
 
       scope.days = []
 
       for (var i=0; i<scope.configData.days; ++i) {
-        var day = new Day(24);
+        var day = new Day(displayLength);
 
         scope.days.push(day);
       }

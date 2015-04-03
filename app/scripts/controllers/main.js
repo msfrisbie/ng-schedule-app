@@ -58,25 +58,31 @@ angular.module('ngscheduleApp')
         'btn-danger'
       ],
       days: 7,
-      // minutes
-      minTime: 60*7,
-      maxTime: 60*8,
-      clickable: false,
-      // minutes
-      granularity: 30,
-      minBlockSize: 60
+      dayDivisions: 24,
+      startBuffer: 8,
+      endBuffer: 4
+      // // minutes
+      // minTime: 60*7,
+      // maxTime: 60*8,
+      // clickable: false,
+      // // minutes
+      // granularity: 30,
+      // minBlockSize: 60
     }
 
     $scope.configData2 = {
       horizontal: false,
-      days: 5,
       fillClasses: [
         'btn-primary',
         'btn-success',
         'btn-info',
         'btn-warning',
         'btn-danger'
-      ]
+      ],
+      days: 7,
+      dayDivisions: 24,
+      startBuffer: 8,
+      endBuffer: 4
     };
 
   });
