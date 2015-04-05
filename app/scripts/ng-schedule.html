@@ -1,25 +1,3 @@
-<div>
-<!--   <table border="1">
-    <tr>
-      <td>JAKE0</td>
-      <td>JAKE1</td>
-    </tr>
-    <tr>
-      <td>JAKE0</td>
-      <td rowspan="3">JAKE2</td>
-    </tr>
-    <tr>
-      <td>JAKE0</td>
-    </tr>
-    <tr>
-      <td>JAKE0</td>
-    </tr>
-    <tr>
-      <td>JAKE0</td>
-      <td>JAKE5</td>
-    </tr>
-  </table> -->
-
 <div class="schedule noselect
             ng-class:{'schedule-horiz': configData.horizontal, 
                       'schedule-vert': !configData.horizontal}"
@@ -43,20 +21,20 @@
                   ng-class:{'resizing-horiz': selectedBlock !== null}">
       <tr ng-if="dayIdx>0">
         <td ng-repeat="block in blockTargets track by $index" 
-            ng-if="$index%3==0" 
-            colspan="3">
+            ng-if="$index%configData.timestampInterval===0" 
+            colspan="{{configData.timestampInterval}}">
           <div style="font-weight: bold; 
                       border-left: 1px solid #AAAAAA; 
                       padding-left: 3px;
-                      height: 2px;
+                      height: 3px;
                       color: #AAAAAA">
           </div>
         </td>
       </tr>
       <tr ng-if="dayIdx===0">
         <td ng-repeat="block in blockTargets track by $index" 
-            ng-if="$index%3==0" 
-            colspan="3">
+            ng-if="$index%configData.timestampInterval==0" 
+            colspan="{{configData.timestampInterval}}">
           <div style="font-weight: bold; 
                       border-left: 1px solid #AAAAAA; 
                       padding-left: 3px;
@@ -81,7 +59,7 @@
 						<span ng-if="block.status>0">
               {{ block.start() }}:00 - {{ block.end() + 1 }}:00
             </span>
-            <div ng-if="block.status<1 && block.start()%3==0"
+            <div ng-if="block.status<1 && block.start()%configData.timestampInterval===0"
                  style="height:100%; 
                         width: 0px;
                         position: absolute;
@@ -153,5 +131,4 @@
       </tr>
     </table>
 	</div>
-</div>
 </div>

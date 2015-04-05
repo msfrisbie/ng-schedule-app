@@ -60,7 +60,8 @@ angular.module('ngscheduleApp')
       days: 7,
       dayDivisions: 24,
       startBuffer: 8,
-      endBuffer: 4
+      endBuffer: 4,
+      timestampInterval: 2
       // // minutes
       // minTime: 60*7,
       // maxTime: 60*8,
