@@ -146,7 +146,8 @@
 	display: block;
 	/*height: 100%;*/
 	width: 100%;
-	padding-top: 20px;
+	height: 100%;
+	/*padding-top: 20px;*/
 	/*margin-top: 20px;*/
 	/*line-height: 60px;*/
 	/*font-size: 1vw;*/

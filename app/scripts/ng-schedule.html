@@ -56,8 +56,9 @@
                       ng-class:[fillClasses[block.status]]"
                ng-mousedown="createIfAvailable(dayIdx, block)"
                ng-touchstart="createIfAvailable(dayIdx, block)">
-						<span ng-if="block.status>0">
-              {{ block.start() }}:00 - {{ block.end() + 1 }}:00
+						<span fittext 
+                  ng-if="block.status>0">
+              {{ block.start() }}:00&nbsp;-&nbsp;{{ block.end() + 1 }}:00
             </span>
             <div ng-if="block.status<1 && block.start()%configData.timestampInterval===0"
                  style="height:100%; 
